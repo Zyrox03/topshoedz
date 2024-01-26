@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Title } from "../../widgets/Title";
 import { useSelector } from "react-redux";
 import { Link as LinkScroll } from "react-scroll";
+import { CheckoutForm } from "../../widgets/CheckoutForm";
 const Cart = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
 
@@ -114,76 +115,8 @@ const Cart = () => {
                   <span className="text-xl font-bold">$10.00</span>
                 </div>
               </div>
-              <div className="flex-1 mx-auto" id="checkout">
-                <div className="bg-slate-200 py-8 px-4 lg:px-8 rounded-md shadow-lg max-w-md w-full ml-auto">
-                  <h2 className="text-2xl font-semibold mb-4">
-                    Informations sur le Paiement à la Livraison
-                  </h2>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="name"
-                      className="block text-gray-700 text-sm font-medium"
-                    >
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder="John Doe"
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="phone"
-                      className="block text-gray-700 text-sm font-medium"
-                    >
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      placeholder="123-456-7890"
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="wilaya"
-                      className="block text-gray-700 text-sm font-medium"
-                    >
-                      Wilaya (Region)
-                    </label>
-                    <input
-                      type="text"
-                      id="wilaya"
-                      name="wilaya"
-                      placeholder="Algiers"
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-6">
-                    <label
-                      htmlFor="notes"
-                      className="block text-gray-700 text-sm font-medium"
-                    >
-                      Additional Notes
-                    </label>
-                    <textarea
-                      id="notes"
-                      name="notes"
-                      rows="3"
-                      placeholder="Any special instructions..."
-                      className="mt-1 p-2 w-full border rounded-md"
-                    ></textarea>
-                  </div>
-                  <button className="w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95">
-                    <i className="text-lg fas fa-clipboard-check"></i>
-                    <p className="text-lg font-bold">Confirmer La Commande</p>
-                  </button>{" "}
-                </div>
+              <div className="flex-1 flex justify-center" id="checkout">
+                <CheckoutForm />
               </div>
             </div>
           </div>

@@ -45,7 +45,7 @@ export const ImagesSwiper = ({ productImages }) => {
 
   return (
     <div className="w-full rounded-lg h-full flex flex-col gap-2 justify-between overflow-hidden">
-      <div className=" w-full h-[60vh]">
+      <div className=" w-full h-[50vh]">
         <div className="imageSwiper h-full w-full ">
           <div className="swiper-wrapper">
             {productImages &&
@@ -70,7 +70,7 @@ export const ImagesSwiper = ({ productImages }) => {
           display: "grid",
           gridTemplateColumns: `repeat(${productImages.length}, 1fr)`,
         }}
-        className={`pagination `}
+        className={`pagination`}
       ></div>
     </div>
   );

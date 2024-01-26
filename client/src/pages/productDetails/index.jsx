@@ -7,7 +7,8 @@ import { BestProducts } from "../../components/LandingPage/BestProducts";
 import { ImagesSwiper } from "../../widgets/ImagesSwiper";
 import { useSelector } from "react-redux";
 import { Feedback } from "../../components/LandingPage/Feedback";
-
+import { CheckoutForm } from "../../widgets/CheckoutForm";
+import { Link as LinkScroll } from "react-scroll";
 const ProductDetails = () => {
   const { productID } = useParams();
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -73,16 +74,27 @@ const ProductDetails = () => {
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "5em" }}>
         <div className="p-8 flex flex-col gap-6">
-          <h1 className="text-5xl font-bold">{product?.name} </h1>
+          <h1 className="text-3xl lg:text-5xl font-bold">{product?.name} </h1>
           <hr />
 
-          <div className="flex flex-col md:flex-row  gap-4">
-            <div className="flex-1 md:w-1/2 flex justify-center items-center relative">
+          <div className="flex flex-col md:flex-row relative gap-4">
+            <div className="flex-1 md:w-1/2 flex justify-center items-center sticky top-0 h-fit">
               {product.images && product.images.length > 0 && (
                 <ImagesSwiper productImages={product?.images} />
               )}
             </div>
             <div className="flex-1 flex flex-col gap-4">
+              <LinkScroll
+                to={"checkout"}
+                spy={true}
+                smooth={true}
+                offset={-100}
+              >
+                <button className="lg:hidden w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95">
+                  <i className="text-lg fa-solid fa-shopping-cart"></i>
+                  <p className="text-lg font-bold">Acheter</p>
+                </button>
+              </LinkScroll>
               <div className="flex h-fit w-full items-center">
                 <h2 className="text-4xl font-bold text-purple-800">
                   ${product?.price}
@@ -109,10 +121,19 @@ const ProductDetails = () => {
               <div className="flex flex-col gap-3 ">
                 <h3 className="text-2xl">Couleur</h3>
                 <div className="flex gap-3">
-                  <div className="circle cursor-pointer bg-red-500 rounded-full w-5 h-5 border border-slate-300"></div>
-                  <div className="circle cursor-pointer bg-blue-500 rounded-full w-5 h-5 border border-slate-300"></div>
-                  <div className="circle cursor-pointer bg-green-500 rounded-full w-5 h-5 border border-slate-300"></div>
-                  <div className="circle cursor-pointer bg-yellow-500 rounded-full w-5 h-5 border border-slate-300"></div>
+                  {product &&
+                    product?.images.map((img, index) => (
+                      <div
+                        key={index}
+                        className="circle cursor-pointer bg-yellow-500 rounded-full w-20 h-20 border border-2 border-purple-300 rounded-3xl"
+                      >
+                        <img
+                          src={img}
+                          className="w-full h-full object-cover rounded-3xl"
+                          alt=""
+                        />
+                      </div>
+                    ))}
                 </div>
               </div>
 
@@ -138,23 +159,22 @@ const ProductDetails = () => {
               </div>
               <div className="flex flex-col gap-3 ">
                 <h3 className="text-2xl">Quantité</h3>
-                <div className="flex gap-3">
-                  <input
-                    id="numberInput"
-                    type="number"
-                    className="w-[150px] px-3 py-2 border border-purple-500 rounded-lg focus:outline-none focus:border-purple-800"
-                    placeholder="Quantité"
-                  />
+                <div className="flex gap-3 items-center">
+                  <div className="cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
+                    <i className="fas fa-minus"></i>
+                  </div>
+
+                  <span className="text-lg"> 2 </span>
+
+                  <div className="cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
+                    <i className="fas fa-plus"></i>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex gap-3 flex-wrap">
-                <button className="w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95">
-                  <i className="text-lg fa-solid fa-cart-plus"></i>
-                  <p className="text-lg font-bold">Ajouter au Panier</p>
-                </button>
+              <div id="checkout" >
+                <CheckoutForm />
               </div>
-
               <div className="mt-auto">
                 <h3 className="italic font-bold">
                   Partager :{" "}
