@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 export const Modal = ({ isOpen, onClose, modalTitle, children }) => {
   const modalClass = isOpen ? "" : "hidden ";
 
-
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -15,21 +14,20 @@ export const Modal = ({ isOpen, onClose, modalTitle, children }) => {
     if (element) {
       if (isOpen) {
         // Add classes and delay for scale-100
-        element.classList.add('scale-0');
-        element.classList.remove('scale-100');
-        
-        setTimeout(() => {
-        element.classList.remove('scale-0');
+        element.classList.add("scale-0");
+        element.classList.remove("scale-100");
 
-        element.classList.add('scale-100');
-          
+        setTimeout(() => {
+          element.classList.remove("scale-0");
+
+          element.classList.add("scale-100");
         }, 5);
       }
     }
   }, [isOpen]);
   return (
     <div
-      style={{ zIndex: 1001  }}
+      style={{ zIndex: 1001 }}
       className={`fixed inset-0  ${modalClass} flex items-center justify-center `}
     >
       <div
@@ -38,14 +36,14 @@ export const Modal = ({ isOpen, onClose, modalTitle, children }) => {
       ></div>
 
       <div
-            ref={modalRef}
-
+        ref={modalRef}
         style={{ zIndex: 100 }}
         className={`no_scrollBar max-h-[90vh] bg-slate-100 p-4 md:p-8 rounded-lg shadow-lg w-[90%] md:w-1/2  my-12 transition-transform`}
-        >
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">{modalTitle}</h2>
           <button
+            type="button"
             className="text-gray-500 hover:text-gray-700"
             onClick={onClose}
           >

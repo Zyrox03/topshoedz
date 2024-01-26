@@ -18,7 +18,7 @@ export const ImagesSwiper = ({ productImages }) => {
         clickable: true,
         renderBullet: function (index, className) {
           return `<img
-          src=${productImages && productImages[index]}
+          src=${productImages && productImages[index].image}
           alt=""
           class="${className} object-cover rounded-none h-40 w-full span-col-1 border-r"
         />
@@ -56,7 +56,7 @@ export const ImagesSwiper = ({ productImages }) => {
                   className="swiper-slide flex justify-center items-center"
                 >
                   <img
-                    src={image}
+                    src={image.image}
                     alt=""
                     className="w-full h-full object-contain"
                   />

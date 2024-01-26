@@ -21,7 +21,7 @@ export const ProductCard = ({ product }) => {
           </div>
         )}
         <img
-          src={product.images[0]}
+          src={product.images[0].image}
           alt="product image"
           className="w-full h-[150px] lg:h-[350px] object-cover hover:scale-105 duration-300 transition"
         />

@@ -12,16 +12,45 @@ const productsList = [
     name: "Air Force Montante",
     price: 19.99,
     oldPrice: 40,
-    images: [shoe1, shoe2, shoe3],
+    images: [
+      {
+        image: shoe1,
+        productColor: "Black",
+      },
+      {
+        image: shoe2,
+        productColor: "White",
+      },
+      {
+        image: shoe3,
+        productColor: "Beige",
+      },
+    ],
+
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
 
     stock: 50,
+    size: [40, 41, 43, 66, 44],
   },
   {
     name: "Nike Dunk Low Off",
     price: 29.99,
-    images: [shoe4, shoe5, shoe6],
+    images: [
+      {
+        image: shoe4,
+        productColor: "Black",
+      },
+      {
+        image: shoe5,
+        productColor: "White",
+      },
+      {
+        image: shoe6,
+        productColor: "Beige",
+      },
+    ],
+
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
     stock: 30,
@@ -30,7 +59,10 @@ const productsList = [
     name: "Baskets montantes",
     price: 49.99,
     oldPrice: 55,
-    images: [shoe7, shoe8],
+    images: [
+      { image: shoe7, productColor: "Red" },
+      { image: shoe8, productColor: "Red" },
+    ],
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
     stock: 20,
@@ -40,10 +72,18 @@ const productsList = [
     price: 39.99,
     oldPrice: 100,
     images: [
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
+      {
+        image: shoe4,
+        productColor: "Black",
+      },
+      {
+        image: shoe5,
+        productColor: "White",
+      },
+      {
+        image: shoe6,
+        productColor: "Beige",
+      },
     ],
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
@@ -54,11 +94,18 @@ const productsList = [
     price: 59.99,
     oldPrice: 70,
     images: [
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
+      {
+        image: shoe4,
+        productColor: "Black",
+      },
+      {
+        image: shoe5,
+        productColor: "White",
+      },
+      {
+        image: shoe6,
+        productColor: "Beige",
+      },
     ],
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
@@ -68,12 +115,18 @@ const productsList = [
     name: "Produit 6",
     price: 79.99,
     images: [
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
+      {
+        image: shoe4,
+        productColor: "Black",
+      },
+      {
+        image: shoe5,
+        productColor: "White",
+      },
+      {
+        image: shoe6,
+        productColor: "Beige",
+      },
     ],
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
@@ -84,12 +137,19 @@ const productsList = [
     price: 69.99,
     oldPrice: 80,
     images: [
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
+      {
+        image: shoe4,
+        productColor: "Black",
+      },
+      {
+        image: shoe5,
+        productColor: "White",
+      },
+      {
+        image: shoe6,
+        productColor: "Beige",
+      },
     ],
-
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
     stock: 40,
@@ -98,12 +158,21 @@ const productsList = [
     name: "Produit 8",
     price: 89.99,
     oldPrice: 100,
-    images: [
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-      "https://scontent.falg1-2.fna.fbcdn.net/v/t39.30808-6/413951530_122135934452073595_2118689815451534574_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGhv-a-3WoQSOk5KTQol_PMkB13ZGHrsneQHXdkYeuyd57BmE3sZxYsQAQMXpXhp6__ZVN28hJLNYY-9lgwmCza&_nc_ohc=RpUNc6THI5sAX-TncOy&_nc_zt=23&_nc_ht=scontent.falg1-2.fna&oh=00_AfAfpe-w_7O1kZaduTw0eqFqN_RUwnzvI_Zt9QL93INCVA&oe=65B1189D",
-    ],
 
+    images: [
+      {
+        image: shoe4,
+        productColor: "Black",
+      },
+      {
+        image: shoe5,
+        productColor: "White",
+      },
+      {
+        image: shoe6,
+        productColor: "Beige",
+      },
+    ],
     description:
       "Une chaussure de haute qualité allie élégance intemporelle et confort exceptionnel, confectionnée avec des matériaux de premier choix tels que le cuir véritable. Sa conception ergonomique et ses finitions impeccables témoignent d'un savoir-faire artisanal, assurant un ajustement précis et un soutien optimal pour le pied.",
     stock: 18,

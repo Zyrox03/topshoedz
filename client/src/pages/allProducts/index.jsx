@@ -5,9 +5,10 @@ import { NavBar } from "../../components/NavBar";
 import { SideNav } from "../../components/sideNav";
 import { Title } from "../../widgets/Title";
 import { ProductCard } from "../../widgets/ProductCard";
-import productsList from "../../assets/productList";
+import { useSelector } from "react-redux";
 const AllProducts = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
+  const productsList = useSelector(state=>state.products.items)
 
   useEffect(() => {
     const body = document.querySelector("body");

@@ -128,7 +128,7 @@ const ProductDetails = () => {
                         className="circle cursor-pointer bg-yellow-500 rounded-full w-20 h-20 border border-2 border-purple-300 rounded-3xl"
                       >
                         <img
-                          src={img}
+                          src={img.image}
                           className="w-full h-full object-cover rounded-3xl"
                           alt=""
                         />
