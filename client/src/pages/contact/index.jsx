@@ -22,13 +22,13 @@ const Contact = () => {
 
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().required("الاسم مطلوب"), // Name is required
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    message: Yup.string().required("Message is required"),
+      .email("عنوان البريد الإلكتروني غير صالح") // Invalid email address
+      .required("البريد الإلكتروني مطلوب"), // Email is required
+    message: Yup.string().required("الرسالة مطلوبة"), // Message is required
   });
-
+  
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -53,15 +53,15 @@ const Contact = () => {
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{marginTop: '5em'}} className="p-6">
-        <Title title="Contactez Nous" />
+        <Title title="اتصل بنا" />
 
-        <form onSubmit={formik.handleSubmit} className="max-w-md mx-auto">
+        <form dir='rtl' onSubmit={formik.handleSubmit} className="max-w-md mx-auto">
           <div className="mb-4">
             <label htmlFor="name" className="text-gray-800 block mb-2">
-              Nom
+            الاسم
             </label>
             <input
-            placeholder="Entrez votre Nom"
+            placeholder="أدخل اسمك"
               type="text"
               id="name"
               name="name"
@@ -77,10 +77,10 @@ const Contact = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="text-gray-800 block mb-2">
-              Email
+            البريد الإلكتروني
             </label>
             <input
-            placeholder="Entrez votre Email"
+            placeholder="أدخل بريدك الإلكتروني"
               type="email"
               id="email"
               name="email"
@@ -96,10 +96,10 @@ const Contact = () => {
 
           <div className="mb-4">
             <label htmlFor="message" className="text-gray-800 block mb-2">
-              Message
+            الرسالة
             </label>
             <textarea
-            placeholder="Entrez votre Message"
+            placeholder="أدخل رسالتك"
               id="message"
               name="message"
               onChange={formik.handleChange}
@@ -117,7 +117,7 @@ const Contact = () => {
           >
             {" "}
             <i className="fa-solid fa-message"></i>
-            <p className="text-lg font-bold">Envoyer</p>
+            <p className="text-lg font-bold">إرسال</p>
           </button>
         </form>
       </div>

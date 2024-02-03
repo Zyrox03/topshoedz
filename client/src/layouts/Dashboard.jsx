@@ -1,10 +1,27 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import { DashboardNav } from "../components/DashboardNav";
 import SideNavDashboard from "../components/Dashboard/SideNavDashboard";
+import Notification from "../widgets/Notification";
+import { useSelector } from "react-redux";
+import routes from "../routes";
 const Dashboard = () => {
   const [activeLink, setActiveLink] = useState("");
   const [sidebar, setSidebar] = useState(false);
+
+  const { pathname } = useLocation();
+
+  useEffect(()=>{
+
+    const currentPage = routes.find(route => pathname.startsWith(route.path));
+    setActiveLink(currentPage?.title || 'Bienvenue !')
+
+  },[pathname])
+
+  // notification
+
+  const { notification } = useSelector((state) => state.notification);
+
   return (
     <div className="min-h-screen bg-slate-300/50 flex flex-col relative ">
       <div className="flex gap-4">
@@ -27,6 +44,10 @@ const Dashboard = () => {
           </main>
         </div>
       </div>
+
+      {notification && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
     </div>
   );
 };

@@ -1,12 +1,6 @@
 {
   "communes": [
-    {
-      "id": "1",
-      "codeW": "",
-      "wilaya": "اختر ولاية",
-      "codeC": "",
-      "baladiya": "إختر بلدية"
-    },
+  
     {
       "id": "2",
       "codeW": "01",

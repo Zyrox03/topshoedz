@@ -18,50 +18,57 @@ export const SideNav = ({ setOpenSideNav, openSideNav, isLanding }) => {
 
       <ul className="flex flex-col items-center w-full gap-6 justify-center">
         {isLanding ? (
-          <LinkScroll to={"hero"} spy={true} smooth={true} offset={0}
-          onClick={() => setOpenSideNav(false)}>
+          <LinkScroll
+            to={"hero"}
+            spy={true}
+            smooth={true}
+            offset={0}
+            onClick={() => setOpenSideNav(false)}
+          >
             <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-            Accueil
+            الصفحة الرئيسية
+
             </li>
           </LinkScroll>
         ) : (
           <Link to="/">
             <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-              Home
+            الصفحة الرئيسية
+
             </li>
           </Link>
         )}
 
         <Link to="/shop">
           <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-          Boutique
+          المتجر
           </li>
         </Link>
 
         {isLanding ? (
-         
-        <LinkScroll
-        to={"feature"}
-        spy={true}
-        smooth={true}
-        offset={-100}
-        onClick={() => setOpenSideNav(false)}
-      >
-        <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-          En vedette
-        </li>
-      </LinkScroll>
+          <LinkScroll
+            to={"feature"}
+            spy={true}
+            smooth={true}
+            offset={-100}
+            onClick={() => setOpenSideNav(false)}
+          >
+            <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
+                عرض خاص
+            </li>
+          </LinkScroll>
         ) : (
           <Link to="/">
             <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-          En vedette
-        </li>
+                عرض خاص
+            </li>
           </Link>
         )}
-        
+
         <Link to="/contact">
           <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-            Contact
+          اتصل بنا
+
           </li>
         </Link>
       </ul>

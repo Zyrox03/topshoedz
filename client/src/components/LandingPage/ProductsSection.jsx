@@ -8,16 +8,21 @@ export const ProductsSection = ({ productsList }) => {
   return (
     <div className="flex flex-col items-center gap-12 p-8">
       <Title
-        title="Nos Produits"
-        sub_title="Rejoignez la tendance avec notre sélection soigneusement choisie des styles les plus vendus."
+        title="منتجاتنا"
+        sub_title="اكتشفوا الأناقة في كل تفصيل - مجموعة حصرية لكل أسلوب ومناسبة"
       />
-      <div className="flex justify-around items-center gap-12 flex-wrap">
+      {productsList.length > 0 ? (
+        <div className="flex justify-around items-center gap-12 flex-wrap">
         {productsList.map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}
       </div>
+      ): (
+        <h3 className="text-lg ">Shop is empty right now</h3>
+      )}
+      
       <Link to="/shop">
-        <Button text="Plus" icon="fas fa-plus" />
+      <Button text="المزيد" icon="fas fa-plus" />
       </Link>{" "}
     </div>
   );

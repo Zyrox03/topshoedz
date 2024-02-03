@@ -9,9 +9,15 @@ import { useSelector } from "react-redux";
 import { Feedback } from "../../components/LandingPage/Feedback";
 import { CheckoutForm } from "../../widgets/CheckoutForm";
 import { Link as LinkScroll } from "react-scroll";
+import DOMPurify from "dompurify";
+import ProductNotFound from "../ProductNotFound";
+import OrderSuccess from "../OrderSuccess";
 const ProductDetails = () => {
+  //
   const { productID } = useParams();
   const [openSideNav, setOpenSideNav] = useState(false);
+
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -23,13 +29,7 @@ const ProductDetails = () => {
   }, [openSideNav]);
 
   //   GET DISCOUNT
-  function getDiscountPercentage(oldPrice, currentPrice) {
-    if (oldPrice && currentPrice && oldPrice > currentPrice) {
-      const discount = ((oldPrice - currentPrice) / oldPrice) * 100;
-      return Math.round(discount);
-    }
-    return 0;
-  }
+  let deduction = 0;
 
   //   SHARE BUTTONS
 
@@ -62,11 +62,115 @@ const ProductDetails = () => {
   }
   const products = useSelector((state) => state.products.items);
 
-  const product = products.find((product) => product.name === productID);
+  const product = products.find((product) => product.slug === productID);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [product]);
+
+  const sanitizedDescription = DOMPurify.sanitize(
+    product?.description.replace(/\n/g, "<br>")
+  );
+
+  const [selectedOptions, setSelectedOptions] = useState({
+    size: null,
+    color: null,
+    quantity: 1,
+
+    productInfo: {
+      name: null,
+      price: null,
+    },
+  });
+
+  useEffect(() => {
+    // Assuming `product` is an object with `name` and `price` properties
+    if (product) {
+      setSelectedOptions((prevOptions) => ({
+        ...prevOptions,
+        productInfo: {
+          name: product.name,
+          price: product.price,
+        },
+      }));
+    }
+  }, [product]);
+
+  // get unique productColors
+
+  // State to hold the unique colors array
+  const [uniqueColors, setUniqueColors] = useState([]);
+
+  const handleColorClick = (color) => {
+    setSelectedOptions((prevOptions) => ({
+      ...prevOptions,
+      color,
+    })); // You can add additional logic here based on the selected color if needed
+  };
+
+  useEffect(() => {
+    const colorSet = new Set();
+
+    const uniqueColorsArray = product?.images.filter((obj) => {
+      if (obj.productColor.trim() !== '') {
+        if (!colorSet.has(obj.productColor)) {
+          colorSet.add(obj.productColor);
+          return true;
+        }
+      }
+      return false;
+    });
+
+    setUniqueColors(uniqueColorsArray);
+  }, [product]); // Empty dependency array ensures the effect runs only once on component mount
+
+  const handleIncrement = () => {
+    if (selectedOptions.quantity < 20) {
+      setSelectedOptions((prevOptions) => ({
+        ...prevOptions,
+        quantity: prevOptions.quantity + 1,
+      }));
+    }
+  };
+
+  const handleDecrement = () => {
+    if (selectedOptions.quantity > 1) {
+      setSelectedOptions((prevOptions) => ({
+        ...prevOptions,
+        quantity: prevOptions.quantity - 1,
+      }));
+    }
+  };
+  // SIZE
+
+  const handleSizeClick = (size) => {
+    setSelectedOptions((prevOptions) => ({
+      ...prevOptions,
+      size,
+    })); // You can add additional logic here based on the selected size if needed
+  };
+
+  if (product) {
+    deduction = Math.round(
+      ((product.oldPrice - product.price) / product.oldPrice) * 100
+    );
+  }
+
+  const [formikErrors, setFormikErrors] = useState({});
+
+  console.log("formikErrors => ", formikErrors);
+  // Callback function to update Formik errors in the parent
+  const handleFormikErrorsChange = (errors) => {
+    setFormikErrors(errors);
+  };
+
+  if (!product) {
+    return <ProductNotFound />;
+  }
+
+  if (orderSuccess) {
+    return <OrderSuccess />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-300/50 flex flex-col relative overflow-hidden">
@@ -74,108 +178,202 @@ const ProductDetails = () => {
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "5em" }}>
         <div className="p-8 flex flex-col gap-6">
-          <h1 className="text-3xl lg:text-5xl font-bold">{product?.name} </h1>
+          <h1 dir="rtl" className="text-3xl lg:text-5xl font-bold">
+            {product?.name}{" "}
+          </h1>
           <hr />
 
           <div className="flex flex-col md:flex-row relative gap-4">
-            <div className="flex-1 md:w-1/2 flex justify-center items-center sticky top-0 h-fit">
-              {product.images && product.images.length > 0 && (
+            <div className="flex-1 h-full md:w-1/2 flex justify-center items-center sticky top-0 h-fit">
+              {product?.images && product?.images.length > 0 ? (
                 <ImagesSwiper productImages={product?.images} />
+              ) : (
+                <div className="swiper-slide flex justify-center items-center">
+                  <img
+                    src={
+                      "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
+                    }
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               )}
             </div>
             <div className="flex-1 flex flex-col gap-4">
               <LinkScroll
-                to={"checkout"}
+                to={"variants"}
                 spy={true}
                 smooth={true}
-                offset={-100}
+                offset={-400}
               >
                 <button className="lg:hidden w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95">
                   <i className="text-lg fa-solid fa-shopping-cart"></i>
                   <p className="text-lg font-bold">Acheter</p>
                 </button>
               </LinkScroll>
-              <div className="flex h-fit w-full items-center">
+              <div dir="rtl" className="flex h-fit w-full items-center">
                 <h2 className="text-4xl font-bold text-purple-800">
-                  ${product?.price}
+                  {product?.price} DA
                 </h2>
                 {product?.oldPrice && (
                   <>
                     <span className="ml-4 text-2xl line-through text-gray-600">
-                      ${product?.oldPrice}
+                     {product?.oldPrice}  DA
                     </span>
 
-                    <div className="ml-12 bg-purple-800 text-white h-fit px-2 font-bold rounded-full">
-                      {getDiscountPercentage(product?.oldPrice, product?.price)}
-                      % OFF
-                    </div>
+                    {deduction > 0 && (
+                      <div className="ml-12 bg-purple-800 text-white h-fit px-2 font-bold rounded-full">
+                        {deduction}% تخفيض
+                      </div>
+                    )}
                   </>
                 )}
               </div>
-              <div className="flex h-fit w-full items-center ">
-                <p>{product?.description}</p>{" "}
+              <div className="flex h-fit w-full items-end flex-col ">
+                <h2 className="text-3xl mb-4">
+                  👇
+                  <span className="text-purple-800 underline">
+                    {" "}
+                    المواصفات{" "}
+                  </span>{" "}
+                  👇
+                </h2>
+                <p
+                  dir="rtl"
+                  className="text-lg"
+                  dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+                ></p>
               </div>
 
-              {/* Variants */}
+              {product.stock > 0 ? (
+                <>
+                  {product && uniqueColors?.length > 0 && (
+                    <div dir="rtl" className="flex flex-col gap-3 ">
+                      <h2 className="text-3xl mb-4 underline">اللون</h2>
+                      <div className="flex gap-3">
+                        {uniqueColors.map((colorObj, index) => (
+                          <div
+                            key={index}
+                            className={`circle cursor-pointer rounded-3xl w-20 h-20 border border-2 transition  ${
+                              selectedOptions.color === colorObj.productColor
+                                ? "bg-purple-200 border-purple-800 p-1"
+                                : "bg-slate-200"
+                            } rounded-3xl`}
+                            onClick={() =>
+                              handleColorClick(colorObj.productColor)
+                            }
+                          >
+                            <img
+                              src={
+                                colorObj.image?.path ||
+                                "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
+                              }
+                              className="w-full h-full object-cover rounded-3xl"
+                              alt=""
+                            />
 
-              <div className="flex flex-col gap-3 ">
-                <h3 className="text-2xl">Couleur</h3>
-                <div className="flex gap-3">
-                  {product &&
-                    product?.images.map((img, index) => (
-                      <div
-                        key={index}
-                        className="circle cursor-pointer bg-yellow-500 rounded-full w-20 h-20 border border-2 border-purple-300 rounded-3xl"
-                      >
-                        <img
-                          src={img.image}
-                          className="w-full h-full object-cover rounded-3xl"
-                          alt=""
-                        />
+                            {selectedOptions.color ===
+                              colorObj.productColor && (
+                              <div className="transform text-center">
+                                <i className="fas fa-check text-green-500"></i>
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+
+                      {formikErrors.color && (
+                        <div className="text-red-500 text-sm mt-1">
+                          {formikErrors.color}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {product && product?.size.length > 0 && (
+                    <div dir="rtl" className="flex flex-col gap-3 ">
+                      {product && product.size.length > 0 && (
+                        <div>
+                          <h2 className="text-3xl mb-4 underline">المقاس</h2>
+                          <div className="flex gap-3">
+                            {product.size.map((size, index) => (
+                              <div
+                                key={index}
+                                className={`cursor-pointer rounded-xl p-2 h-10 border border-2 ${
+                                  selectedOptions.size === size
+                                    ? "bg-purple-600 text-white relative"
+                                    : "bg-slate-200 border border-purple-500 text-gray-700"
+                                } flex justify-center gap-2 items-center transition duration-300 ease-in-out transform hover:scale-110 active:scale-95`}
+                                onClick={() => handleSizeClick(size)}
+                              >
+                                {selectedOptions.size === size && (
+                                  <div className="transform">
+                                    <i className="fas fa-check text-green-500"></i>
+                                  </div>
+                                )}
+                                <span>{size}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {formikErrors.size && (
+                        <div className="text-red-500 text-sm mt-1">
+                          {formikErrors.size}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div dir="rtl" id="variants" className="flex flex-col gap-3 ">
+                    <h2 className="text-3xl mb-4 underline">الكمية</h2>
+                    <div className="flex gap-3 items-center">
+                      <div
+                        className="cursor-pointer bg-purple-600 rounded-xl w-10 h-10 border border-2 border-purple-500 flex justify-center items-center transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
+                        onClick={handleDecrement}
+                      >
+                        <i className="fas fa-minus text-white"></i>
+                      </div>
+
+                      <span className="text-lg w-10 text-center">
+                        {selectedOptions.quantity}
+                      </span>
+
+                      <div
+                        className="cursor-pointer bg-purple-600 rounded-xl w-10 h-10 border border-2 border-purple-500 flex justify-center items-center transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"
+                        onClick={handleIncrement}
+                      >
+                        <i className="fas fa-plus text-white"></i>
+                      </div>
+                    </div>
+
+                    {formikErrors.quantity && (
+                      <div className="text-red-500 text-sm mt-1">
+                        {formikErrors.quantity}
+                      </div>
+                    )}
+                  </div>
+
+                  <div dir="rtl">
+                    <CheckoutForm
+                      setOrderSuccess={setOrderSuccess}
+                      handleFormikErrorsChange={handleFormikErrorsChange}
+                      selectedOptions={selectedOptions}
+                      product={product}
+                      uniqueColors={uniqueColors}
+                    />{" "}
+                  </div>
+                </>
+              ) : (
+                <div
+                  dir="rtl"
+                  className="bg-red-500 text-white p-4 rounded-md shadow-md"
+                >
+                  <p className="text-lg font-semibold">نفدت الكمية حالياً</p>
                 </div>
-              </div>
+              )}
 
-              <div className="flex flex-col gap-3 ">
-                <h3 className="text-2xl">Pointure</h3>
-                <div className="flex gap-3">
-                  <div className="size cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    40
-                  </div>
-                  <div className="size cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    41
-                  </div>
-                  <div className="size cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    42
-                  </div>
-                  <div className="size cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    43
-                  </div>
-                  <div className="size cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    44
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 ">
-                <h3 className="text-2xl">Quantité</h3>
-                <div className="flex gap-3 items-center">
-                  <div className="cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    <i className="fas fa-minus"></i>
-                  </div>
-
-                  <span className="text-lg"> 2 </span>
-
-                  <div className="cursor-pointer bg-slate-200 rounded-full w-10 h-10 border border-2 border-purple-500 flex justify-center items-center">
-                    <i className="fas fa-plus"></i>
-                  </div>
-                </div>
-              </div>
-
-              <div id="checkout" >
-                <CheckoutForm />
-              </div>
-              <div className="mt-auto">
+              <div dir="rtl" className="mt-auto">
                 <h3 className="italic font-bold">
                   Partager :{" "}
                   <span className="flex gap-4">
@@ -203,6 +401,7 @@ const ProductDetails = () => {
       <Footer />
     </div>
   );
+  //
 };
 
 export default ProductDetails;

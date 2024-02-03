@@ -1,36 +1,68 @@
+import { useSelector } from "react-redux";
 import { Button } from "../../widgets/Button";
+import { Link } from "react-router-dom";
 import { Timer } from "../../widgets/Timer";
+import DOMPurify from "dompurify";
+
 export const Feature = () => {
- 
+  const { items: products, specialOffer } = useSelector(
+    (state) => state.products
+  );
 
+  const product = products.find(
+    (product) => product.slug === specialOffer?.slug
+  );
+
+  let deduction = 0;
+  deduction = Math.round(
+    ((product?.oldPrice - product?.price) / product?.oldPrice) * 100
+  );
+
+  const sanitizedDescription = DOMPurify.sanitize(
+    product?.description.replace(/\n/g, "<br>")
+  );
   return (
-    <div className="flex flex-col items-center  justify-center" id="feature">
-      <div className="bg-purple-400/50 rounded-2xl w-[80%] min-h-[400px] flex flex-col-reverse lg:flex-row items-center p-4 gap-4 relative overflow-hidden">
-        <img
-          className="absolute h-full object-cover w-full z-0 opacity-[0.5]"
-          src="https://static.vecteezy.com/system/resources/thumbnails/011/577/787/small/3d-rendered-colorful-confetti-with-fun-color-png.png"
-          alt=""
-        />
-        <div className="flex-1 h-full z-10">
+    specialOffer && (
+      <div className="flex flex-col items-center  justify-center" id="feature">
+        <div className="bg-purple-400/50 rounded-2xl w-[80%] min-h-[400px] flex flex-col-reverse lg:flex-row items-center p-4 gap-4 relative overflow-hidden">
           <img
-            src="https://i.ebayimg.com/00/s/NTM3WDk3Mg==/z/b6QAAOSwetljWAFx/$_58.png"
-            alt="special offer"
-            className="h-full object-contain w-full rounded-lg"
+            className="absolute h-full object-cover w-full z-0 opacity-[0.5]"
+            src="https://static.vecteezy.com/system/resources/thumbnails/011/577/787/small/3d-rendered-colorful-confetti-with-fun-color-png.png"
+            alt=""
           />
-        </div>
-        <div className="flex-1 flex flex-col gap-6 justify-around z-10">
-          <h2 className="text-xl font-bold text-purple-800">Offre Special</h2>
-          <span className="text-5xl font-bold ">20% OFF</span>
-          <p>
-          Explorez les derniers styles avec notre collection Air Force Montante. Élevez votre jeu de mode avec ces baskets montantes qui allient parfaitement confort et style.
 
-          </p>
+          {product.images[0]?.image?.path && (
+            <div className="flex-1 h-full z-10">
+              <img
+                src={product.images[0]?.image?.path}
+                alt="special offer"
+                className="h-full  max-w-96 object-contain rounded-lg p-4"
+              />
+            </div>
+          )}
 
-          <Timer />
+          <div
+            dir="rtl"
+            className="flex-1 flex flex-col gap-6 justify-around z-10"
+          >
+            <h2 className="text-xl font-bold text-purple-800">عرض خاص</h2>
+            {deduction > 0 && (
+              <span className="text-5xl font-bold bg-purple-800 text-white p-2 w-fit rounded-lg shadow-xl">تخفيض {deduction}% </span>
+            )}
+            <p
+              dir="rtl"
+              className="text-lg"
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            ></p>
 
-          <Button text="Voir" icon="fa-solid fa-tag" />
+            <Timer deadline={specialOffer.deadline} />
+
+            <Link to={`/${specialOffer?.slug}`}>
+              <Button text="انظر" icon="fa-solid fa-tag" />
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };

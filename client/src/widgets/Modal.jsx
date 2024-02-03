@@ -28,7 +28,7 @@ export const Modal = ({ isOpen, onClose, modalTitle, children }) => {
   return (
     <div
       style={{ zIndex: 1001 }}
-      className={`fixed inset-0  ${modalClass} flex items-center justify-center `}
+      className={`fixed inset-0  ${modalClass} flex items-center justify-center  `}
     >
       <div
         className="absolute inset-0 bg-black opacity-50"
@@ -38,7 +38,7 @@ export const Modal = ({ isOpen, onClose, modalTitle, children }) => {
       <div
         ref={modalRef}
         style={{ zIndex: 100 }}
-        className={`no_scrollBar max-h-[90vh] bg-slate-100 p-4 md:p-8 rounded-lg shadow-lg w-[90%] md:w-1/2  my-12 transition-transform`}
+        className={`no_scrollBar overflow-scroll max-h-[90vh] bg-slate-100 p-4 md:p-8 rounded-lg shadow-lg w-[90%] md:w-1/2  my-12 transition-transform`}
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">{modalTitle}</h2>

@@ -18,9 +18,12 @@ export const ImagesSwiper = ({ productImages }) => {
         clickable: true,
         renderBullet: function (index, className) {
           return `<img
-          src=${productImages && productImages[index].image}
+          src=${
+            (productImages && productImages[index]?.image?.path) ||
+            "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
+          }
           alt=""
-          class="${className} object-cover rounded-none h-40 w-full span-col-1 border-r"
+          class="${className} object-cover rounded-none h-40 w-full span-col-1 border-2 border-purple-500  rounded-xl"
         />
        
        `;
@@ -48,20 +51,23 @@ export const ImagesSwiper = ({ productImages }) => {
       <div className=" w-full h-[50vh]">
         <div className="imageSwiper h-full w-full ">
           <div className="swiper-wrapper">
-            {productImages &&
-              productImages.length > 0 &&
-              productImages.map((image, index) => (
+            {productImages && productImages.length > 0 && (
+              productImages.map(({ image }, index) => (
                 <div
                   key={index}
                   className="swiper-slide flex justify-center items-center"
                 >
                   <img
-                    src={image.image}
+                    src={
+                      image?.path ||
+                      "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
+                    }
                     alt=""
                     className="w-full h-full object-contain"
                   />
                 </div>
-              ))}
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -69,8 +75,10 @@ export const ImagesSwiper = ({ productImages }) => {
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${productImages.length}, 1fr)`,
+          width: '80%',
+          gap: 4,
         }}
-        className={`pagination`}
+        className={`pagination mx-auto`}
       ></div>
     </div>
   );

@@ -1,15 +1,26 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ImageDropzone from "../../components/Dashboard/ImageDropzone";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Modal } from "../../widgets/Modal";
+import axios from "axios";
+import {
+  setLoading,
+  setSpecialOffer,
+  updateProducts,
+} from "../../toolkit/productSlice";
+import { setNotification } from "../../toolkit/notificationSlice";
 
 const ProductDetailsAdmin = () => {
   const { productID } = useParams();
-  const productsList = useSelector((state) => state.products.items);
-  const product = productsList.find((product) => product.name === productID);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, items: productsList } = useSelector(
+    (state) => state.products
+  );
+  const product = productsList.find((product) => product.slug === productID);
 
   const formik = useFormik({
     initialValues: {
@@ -24,15 +35,85 @@ const ProductDetailsAdmin = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Required"),
-      slug: Yup.string(),
+      slug: Yup.string().matches(/^[a-zA-Z0-9-]+$/, "Invalid slug format"),
       price: Yup.number().required("Required"),
       oldPrice: Yup.number().required("Required"),
       description: Yup.string().required("Required"),
       stock: Yup.number().required("Required"),
     }),
-    onSubmit: (values) => {
-      // Replace this with your logic to save the edited product details
-      console.log("Product details saved:", values);
+    onSubmit: async (values) => {
+      try {
+        console.log("VALUESSS", values);
+        dispatch(setLoading(true));
+        const formData = new FormData();
+        // Append other form fields to the FormData
+        Object.keys(values).forEach((key) => {
+          if (key === "images") {
+            // Convert the array of objects to a JSON string and append it
+            formData.append(key, JSON.stringify(values[key]));
+          } else if (key === "size" && Array.isArray(values[key])) {
+            if (values[key].length > 0) {
+              // If 'size' is a non-empty array, append each element individually
+              values[key].forEach((size) => {
+                formData.append(key, size);
+              });
+            } else {
+              // If 'size' is an empty array, append an empty array
+              formData.append(key, []);
+            }
+          } else {
+            formData.append(key, values[key]);
+          }
+        });
+
+        // Append each image file to the FormData
+        values.images.forEach((image) => {
+          formData.append("imageFiles", image.imageFile);
+        });
+
+        if (productID === "new") {
+          const response = await axios.post(
+            `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          const { updatedProducts, message } = response.data;
+          dispatch(updateProducts(updatedProducts));
+          dispatch(setNotification({ message, type: "success" }));
+
+          navigate("/admin/products");
+        } else {
+          const response = await axios.put(
+            `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/${product.slug}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          const { updatedProducts, message } = response.data;
+
+          dispatch(updateProducts(updatedProducts));
+          dispatch(setNotification({ message, type: "success" }));
+
+          navigate("/admin/products");
+        }
+      } catch (error) {
+        console.log(error);
+        dispatch(
+          setNotification({
+            message: error.response.data.message || error.message,
+            type: "error",
+          })
+        );
+      } finally {
+        dispatch(setLoading(false));
+      }
     },
   });
 
@@ -46,23 +127,18 @@ const ProductDetailsAdmin = () => {
 
   const [uploadedstock, setUploadedstock] = useState([]);
 
-  
   const [imageToAddObject, setImageToAddObject] = useState({
     image: "",
     productColor: "",
-    imageFile:""
+    imageFile: "",
   });
-
 
   const onDrop = (acceptedFiles) => {
     // Ensure that only the first file is considered
     const droppedFile = acceptedFiles[0];
 
-    console.log(droppedFile)
     if (droppedFile) {
-
       const imagePreview = URL.createObjectURL(droppedFile);
-
 
       // Update state to store the dropped image information
       setUploadedstock([URL.createObjectURL(droppedFile)]);
@@ -70,8 +146,8 @@ const ProductDetailsAdmin = () => {
       setImageToAddObject((prevState) => ({
         ...prevState,
         // Add information about the dropped image, for example, the file object
-        image: imagePreview,
-      imageFile: droppedFile,
+        image: { path: imagePreview },
+        imageFile: droppedFile,
       }));
     }
   };
@@ -80,13 +156,12 @@ const ProductDetailsAdmin = () => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && sizeInputText.trim() !== "") {
       // Add the size to the formik.values.size array
-      e.preventDefault()
+      e.preventDefault();
 
       formik.setValues({
         ...formik.values,
         size: [...formik.values.size, sizeInputText.trim()],
       });
-
       // Clear the input field
       setSizeInputText("");
     }
@@ -99,10 +174,12 @@ const ProductDetailsAdmin = () => {
   };
 
   const deleteSize = (size) => {
-    formik.setFieldValue(
-      "size",
-      formik.values.size.filter((formikSize) => formikSize !== size)
-    );
+    if (!loading) {
+      formik.setFieldValue(
+        "size",
+        formik.values.size.filter((formikSize) => formikSize !== size)
+      );
+    }
   };
 
   // IMAGE MANAGEMENT
@@ -114,9 +191,9 @@ const ProductDetailsAdmin = () => {
     });
 
     // Clear the input field
-    setImageToAddObject({ image: "", productColor: "" ,imageFile:""});
+    setImageToAddObject({ image: "", productColor: "", imageFile: "" });
 
-    setAddImageModal(false)
+    setAddImageModal(false);
   };
 
   const handleProductColorChange = (e) => {
@@ -132,7 +209,9 @@ const ProductDetailsAdmin = () => {
   const deleteImage = (image) => {
     formik.setFieldValue(
       "images",
-      formik.values.images.filter((formikImage) => formikImage !== image)
+      formik.values.images.filter(
+        (formikImage) => formikImage.image.path !== image
+      )
     );
   };
 
@@ -142,13 +221,63 @@ const ProductDetailsAdmin = () => {
     setAddImageModal(false);
   };
 
+  const [deleteProductModal, setDeleteProductModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState("");
+
+  const onCloseDelete = () => {
+    setDeleteProductModal(false);
+  };
+
+  const openDelete = (slug) => {
+    setDeleteProductModal(true);
+    setProductToDelete(slug);
+  };
+
+  const deleteProduct = async (productToDelete) => {
+    try {
+      dispatch(setLoading(true));
+
+      const response = await axios.delete(
+        `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/${productToDelete}`
+      );
+
+      // Assuming the server responds with the updated list of products after deletion
+      const { updatedProducts, message, specialOffer } = response.data;
+
+      // You can handle the updated products data as needed (e.g., update the Redux state)
+      console.log("Product deleted successfully");
+      console.log("Updated products:", updatedProducts);
+
+      dispatch(setSpecialOffer(specialOffer));
+      dispatch(updateProducts(updatedProducts));
+      dispatch(setNotification({ message, type: "success" }));
+
+      onCloseDelete();
+      navigate("/admin/products");
+    } catch (error) {
+      dispatch(
+        setNotification({
+          message: error.response.data.message || error.message,
+          type: "error",
+        })
+      );
+      console.log(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   return (
     <div className="bg-white p-4 rounded-md shadow-md">
-      <h1 className="text-3xl font-bold mb-4">Edit Product {productID} </h1>
+      <h1 className="text-3xl font-bold mb-4">
+        {" "}
+        {product ? ` Modifer ${product.name}` : "Ajouter un Produit"}{" "}
+      </h1>
 
       <form
         onSubmit={formik.handleSubmit}
         className="w-full flex flex-col gap-12"
+        encType="multipart/form-data"
       >
         <div className="w-full flex flex-col lg:flex-row gap-4">
           <div className="flex-1">
@@ -157,9 +286,11 @@ const ProductDetailsAdmin = () => {
                 htmlFor="name"
                 className="block text-sm font-semibold text-gray-600"
               >
-                Product Name
+                Nom du Produit
               </label>
               <input
+                dir="rtl"
+                disabled={loading}
                 type="text"
                 id="name"
                 name="name"
@@ -183,9 +314,11 @@ const ProductDetailsAdmin = () => {
                 htmlFor="slug"
                 className="block text-sm font-semibold text-gray-600"
               >
-                Product Slug
+                Identifiant du Produit
               </label>
               <input
+                dir="rtl"
+                disabled={loading}
                 type="text"
                 id="slug"
                 value={formik.values.slug}
@@ -208,9 +341,11 @@ const ProductDetailsAdmin = () => {
                 htmlFor="price"
                 className="block text-sm font-semibold text-gray-600"
               >
-                Price
+                Prix
               </label>
               <input
+                dir="rtl"
+                disabled={loading}
                 type="number"
                 id="price"
                 name="price"
@@ -234,9 +369,11 @@ const ProductDetailsAdmin = () => {
                 htmlFor="oldPrice"
                 className="block text-sm font-semibold text-gray-600"
               >
-                Old Price
+                Ancien Prix
               </label>
               <input
+                dir="rtl"
+                disabled={loading}
                 type="number"
                 id="oldPrice"
                 name="oldPrice"
@@ -276,6 +413,8 @@ const ProductDetailsAdmin = () => {
                 Description
               </label>
               <textarea
+                dir="rtl"
+                disabled={loading}
                 id="description"
                 name="description"
                 value={formik.values.description}
@@ -301,6 +440,8 @@ const ProductDetailsAdmin = () => {
                 Stock
               </label>
               <input
+                dir="rtl"
+                disabled={loading}
                 type="number"
                 id="stock"
                 name="stock"
@@ -319,54 +460,54 @@ const ProductDetailsAdmin = () => {
                 </div>
               )}
             </div>
-
-           
           </div>
           <div className="flex-1">
+            {/* SIZE & COLOR VARIANTS */}
+
             {/* UPLOAD IMAGES  */}
+
             <div className="mb-4">
               <label
                 htmlFor="price"
                 className="block text-sm font-semibold text-gray-600 mb-2"
               >
-                Product Images 
+                Images du Produit{" "}
               </label>
-            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-4 flex-wrap">
+                {formik.values.images.length > 0 &&
+                  formik.values.images.map((image, index) => (
+                    <div
+                      key={index}
+                      onClick={() => deleteImage(image.image.path)}
+                      className="w-[45%] h-40 bg-purple-500 text-white hover:bg-red-500 transition cursor-pointer shadow-lg flex justify-center items-center rounded-xl p-2"
+                    >
+                      <img
+                        src={image.image.path || image.path}
+                        className="w-full h-full object-cover"
+                        alt=""
+                      />
+                    </div>
+                  ))}
 
-              {formik.values.images.length > 0 &&
-                formik.values.images.map((image, index) => (
-                  <div
-                    key={index}
-                    onClick={() => deleteImage(image)}
-                    className="w-[45%] h-40 bg-purple-500 text-white hover:bg-red-500 transition cursor-pointer shadow-lg flex justify-center items-center rounded-xl p-2"
-                  >
-                    <img
-                      src={image.image || image.imageFile}
-                      className="w-full h-full object-cover"
-                      alt=""
-                    />
-                  </div>
-                ))}
-
-              <div
-                onClick={() => setAddImageModal(true)}
-                className="w-[45%] h-40 bg-purple-500 text-white hover:bg-purple-600 transition cursor-pointer shadow-lg flex justify-center items-center rounded-xl p-2"
-              >
-                <i className="fas fa-plus"></i>
+                <div
+                  onClick={() => setAddImageModal(true)}
+                  className="w-[45%] h-40 bg-purple-500 text-white hover:bg-purple-600 transition cursor-pointer shadow-lg flex justify-center items-center rounded-xl p-2"
+                >
+                  <i className="fas fa-plus"></i>
+                </div>
               </div>
             </div>
-          </div>
 
-           {/* SIZE & COLOR VARIANTS */}
-
-           <div className="mb-4">
+            <div className="mb-4">
               <label
                 htmlFor="size"
                 className="block text-sm font-semibold text-gray-600"
               >
-                size
+                Taille
               </label>
               <input
+                dir="rtl"
+                disabled={loading}
                 type="text"
                 id="size"
                 name="size"
@@ -400,7 +541,6 @@ const ProductDetailsAdmin = () => {
               </div>
             </div>
           </div>
-
         </div>
 
         <Modal
@@ -413,7 +553,11 @@ const ProductDetailsAdmin = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col-reverse lg:flex-row gap-4">
               <div className="flex-1">
-                <ImageDropzone onDrop={onDrop} uploadedImages={uploadedstock} />
+                <ImageDropzone
+                  loading={loading}
+                  onDrop={onDrop}
+                  uploadedImages={uploadedstock}
+                />
               </div>
               <div className="flex-1">
                 {/*  Color Variant */}
@@ -426,6 +570,8 @@ const ProductDetailsAdmin = () => {
                     Couleur
                   </label>
                   <input
+                    dir="rtl"
+                    disabled={loading}
                     type="text"
                     id="productColor"
                     value={imageToAddObject.productColor}
@@ -439,20 +585,83 @@ const ProductDetailsAdmin = () => {
 
             <button
               type="button"
+              disabled={loading}
               onClick={uploadImage}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+              className="bg-blue-500 text-white disabled:bg-blue-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
             >
               Upload Image
             </button>
           </div>
         </Modal>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+        <Modal
+          isOpen={deleteProductModal}
+          onClose={onCloseDelete}
+          modalTitle={`Supprimer ${product?.name}  ?`}
         >
-          Save Changes
-        </button>
+          <div className="mt-2">
+            <p className="text-sm text-gray-800">
+              Are you sure you want to delete this product? This action cannot
+              be undone.
+            </p>
+          </div>
+
+          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              disabled={loading}
+              onClick={() => deleteProduct(productToDelete)}
+              type="button"
+              id="confirmDeleteButton"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm disabled:bg-red-400"
+            >
+              Delete
+            </button>
+            <button
+              disabled={loading}
+              onClick={onCloseDelete}
+              type="button"
+              id="cancelDeleteButton"
+              className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal>
+
+        <div className="flex w-full gap-2 items-center justify-around">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-500 flex w-96 justify-center items-center gap-2  text-white disabled:bg-blue-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+          >
+            <span> Enregistrer </span>
+            <i className="fa-solid fa-floppy-disk"></i>
+          </button>
+          {productID !== "new" && (
+            <>
+              <Link to={`/${product.slug}`}>
+                <button
+                  type="button"
+                  disabled={loading}
+                  className="bg-purple-500 flex lg:w-96 justify-center items-center gap-2 text-white disabled:bg-purple-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-purple-600 focus:outline-none focus:shadow-outline-blue"
+                >
+                  <span className="hidden lg:flex"> Voir le produit </span>
+                  <i className="fa-solid fa-eye"></i>
+                </button>
+              </Link>
+
+              <button
+                type="button"
+                disabled={loading}
+                onClick={() => openDelete(product.slug)}
+                className="bg-red-500 text-white flex lg:w-96 justify-center items-center gap-2 disabled:bg-red-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:shadow-outline-blue"
+              >
+                <span className="hidden lg:flex">Supprimer</span>{" "}
+                <i className="fa-solid fa-trash"></i>
+              </button>
+            </>
+          )}
+        </div>
       </form>
     </div>
   );

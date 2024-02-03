@@ -1,14 +1,26 @@
-// models/Product.js
+const mongoose = require("mongoose");
 
-const mongoose = require('mongoose');
+// Custom validator function to check reserved slugs
+const reservedSlugsValidator = (value) => {
+  const reservedSlugs = ["new", "admin"];
+  return !reservedSlugs.includes(value.toLowerCase());
+};
 
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
-
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: reservedSlugsValidator,
+      message: "Invalid or reserved slug",
+    },
+  },
+
   price: {
     type: Number,
     required: true,
@@ -16,37 +28,36 @@ const productSchema = new mongoose.Schema({
   oldPrice: {
     type: Number,
   },
-  images: {
-    type: [String],
-  },
+  images: [
+    {
+      image: {
+        path: {
+          type: String,
+        },
+        filename: {
+          type: String,
+        },
+      },
+
+      productColor: {
+        type: String,
+      },
+    },
+  ],
   description: {
     type: String,
   },
-  
-  variants: [
-    {
-      size: {
-        type: String,
-        required: true,
-      },
-      color: {
-        type: String,
-        required: true,
-      },
-      stock: {
-        type: Number,
-        required: true,
-      },
-    },
-    // Add more variant properties as needed
-  ],
-
-  slug: {
-    type: String,
-    unique: true,
+  stock: {
+    type: Number,
+    required: true,
   },
+  size: [
+    {
+      type: String, // Change to String for an array of strings
+    },
+  ],
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;

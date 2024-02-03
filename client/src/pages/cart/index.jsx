@@ -116,7 +116,7 @@ const Cart = () => {
                 </div>
               </div>
               <div className="flex-1 flex justify-center" id="checkout">
-                <CheckoutForm />
+                <CheckoutForm cartPage />
               </div>
             </div>
           </div>

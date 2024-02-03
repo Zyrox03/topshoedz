@@ -1,10 +1,11 @@
 import { useDropzone } from "react-dropzone";
 import PropTypes from 'prop-types'
 // Dropzone component
-const ImageDropzone = ({ onDrop, uploadedImages }) => {
+const ImageDropzone = ({ onDrop, uploadedImages, loading }) => {
 
       const { getRootProps, getInputProps } = useDropzone({
         onDrop,
+        disabled: loading
       });
     
   
@@ -29,5 +30,6 @@ const ImageDropzone = ({ onDrop, uploadedImages }) => {
   
   ImageDropzone.propTypes = {
     onDrop : PropTypes.func,
-    uploadedImages: PropTypes.array
+    uploadedImages: PropTypes.array,
+    loading: PropTypes.bool
   }
