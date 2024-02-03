@@ -30,7 +30,7 @@ async function main() {
 app.use(express.json());
 app.use(helmet());
 const corsOptions = {
-  origin: '*',
+  origin: 'https://topshoes-dz.pages.dev',
 };
 
 app.use(cors(corsOptions));
