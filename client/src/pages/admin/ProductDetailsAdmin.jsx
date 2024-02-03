@@ -34,16 +34,16 @@ const ProductDetailsAdmin = () => {
       images: product?.images || [],
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Required"),
-      slug: Yup.string().matches(/^[a-zA-Z0-9-]+$/, "Invalid slug format"),
-      price: Yup.number().required("Required"),
-      oldPrice: Yup.number().required("Required"),
-      description: Yup.string().required("Required"),
-      stock: Yup.number().required("Required"),
+      name: Yup.string().required("Le nom est obligatoire"),
+      slug: Yup.string().matches(/^[a-zA-Z0-9-]+$/, "Format de l'identifiant invalide"),
+      price: Yup.number().required("Le prix est obligatoire"),
+      oldPrice: Yup.number().required("L'ancien prix est obligatoire"),
+      description: Yup.string().required("La description est obligatoire"),
+      stock: Yup.number().required("Le stock est obligatoire"),
     }),
+    
     onSubmit: async (values) => {
       try {
-        console.log("VALUESSS", values);
         dispatch(setLoading(true));
         const formData = new FormData();
         // Append other form fields to the FormData
@@ -245,8 +245,6 @@ const ProductDetailsAdmin = () => {
       const { updatedProducts, message, specialOffer } = response.data;
 
       // You can handle the updated products data as needed (e.g., update the Redux state)
-      console.log("Product deleted successfully");
-      console.log("Updated products:", updatedProducts);
 
       dispatch(setSpecialOffer(specialOffer));
       dispatch(updateProducts(updatedProducts));
@@ -294,6 +292,8 @@ const ProductDetailsAdmin = () => {
                 type="text"
                 id="name"
                 name="name"
+                placeholder="Entrez votre nom"
+                
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -320,6 +320,7 @@ const ProductDetailsAdmin = () => {
                 dir="rtl"
                 disabled={loading}
                 type="text"
+                placeholder="Entrez l'dentifiant du produit"
                 id="slug"
                 value={formik.values.slug}
                 onChange={formik.handleChange}
@@ -349,6 +350,7 @@ const ProductDetailsAdmin = () => {
                 type="number"
                 id="price"
                 name="price"
+                placeholder="Entrez le prix du produit"
                 value={formik.values.price}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -376,6 +378,7 @@ const ProductDetailsAdmin = () => {
                 disabled={loading}
                 type="number"
                 id="oldPrice"
+                placeholder="Entrez l'ancien prix du produit"
                 name="oldPrice"
                 value={formik.values.oldPrice}
                 onChange={formik.handleChange}
@@ -418,6 +421,7 @@ const ProductDetailsAdmin = () => {
                 id="description"
                 name="description"
                 value={formik.values.description}
+                placeholder="Entrez la description du produit"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={`w-full px-3 py-2 h-60 border rounded-md focus:outline-none ${
@@ -445,6 +449,7 @@ const ProductDetailsAdmin = () => {
                 type="number"
                 id="stock"
                 name="stock"
+                placeholder="Entrez le stock du produit"
                 value={formik.values.stock}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -512,7 +517,7 @@ const ProductDetailsAdmin = () => {
                 id="size"
                 name="size"
                 onKeyDown={handleKeyDown}
-                placeholder="Ajouter une pointure"
+                placeholder="Ajouter une pointure au produit"
                 value={sizeInputText}
                 onChange={handleInputChange}
                 className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
@@ -574,6 +579,7 @@ const ProductDetailsAdmin = () => {
                     disabled={loading}
                     type="text"
                     id="productColor"
+                    placeholder="Ajouter une couleur à ce produit"
                     value={imageToAddObject.productColor}
                     onChange={handleProductColorChange}
                     name="productColor"
@@ -589,7 +595,7 @@ const ProductDetailsAdmin = () => {
               onClick={uploadImage}
               className="bg-blue-500 text-white disabled:bg-blue-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
             >
-              Upload Image
+              Ajouter
             </button>
           </div>
         </Modal>

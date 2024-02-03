@@ -44,11 +44,22 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
           : "py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md"
       } fixed w-full transition`}
     >
-      <div className="flex-1">
+
+{isAdmin ? (
+            <Link className="lg:hidden flex-1" to="/admin">
+              <Button text="Admin" icon="fa-solid fa-user-tie" />
+            </Link>
+          ) : (
+            <Link className="lg:hidden flex-1" to="/account">
+              <Button text="حساب" icon="fa-solid fa-user" />
+            </Link>
+          )}
+          
+      <div className="lg:flex-1 text-center lg:text-start">
         {isLanding ? (
           <LinkScroll to={"hero"} spy={true} smooth={true} offset={0}>
             <h1
-              className={`text-sm sm:text-2xl font-bold uppercase  transition cursor-pointer ${
+              className={`text-lg sm:text-2xl font-bold uppercase  transition  cursor-pointer ${
                 isScrolled ? "text-slate-800" : "text-purple-700"
               } `}
             >
@@ -58,7 +69,7 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
         ) : (
           <Link to="/">
             <h1
-              className={`text-sm sm:text-2xl font-bold uppercase  transition ${
+              className={`text-sm sm:text-2xl font-bold uppercase  transition  cursor-pointer ${
                 isScrolled ? "text-slate-800" : "text-purple-700"
               } `}
             >
@@ -119,12 +130,14 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
       <div className="flex items-center  flex-1">
         {/* <i className="text-xl fa-solid fa-cart-shopping ml-auto"></i> */}
         <div className="ml-auto flex gap-2 text-black">
-          {isAdmin ? (
-            <Link to="/admin">
+         
+         
+{isAdmin ? (
+            <Link className="hidden lg:flex" to="/admin">
               <Button text="Admin" icon="fa-solid fa-user-tie" />
             </Link>
           ) : (
-            <Link to="/account">
+            <Link className="hidden lg:flex" to="/account">
               <Button text="حساب" icon="fa-solid fa-user" />
             </Link>
           )}

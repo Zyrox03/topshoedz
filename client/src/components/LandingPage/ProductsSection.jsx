@@ -18,7 +18,7 @@ export const ProductsSection = ({ productsList }) => {
         ))}
       </div>
       ): (
-        <h3 className="text-lg ">Shop is empty right now</h3>
+        <h3 className="text-lg ">المتجر فارغ في الوقت الحالي</h3>
       )}
       
       <Link to="/shop">

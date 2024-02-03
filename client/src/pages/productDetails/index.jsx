@@ -212,17 +212,17 @@ const ProductDetails = () => {
                 </button>
               </LinkScroll>
               <div dir="rtl" className="flex h-fit w-full items-center">
-                <h2 className="text-4xl font-bold text-purple-800">
+                <h2 className="text-xl md:text-4xl font-bold text-purple-800 ml-2">
                   {product?.price} DA
                 </h2>
                 {product?.oldPrice && (
                   <>
-                    <span className="ml-4 text-2xl line-through text-gray-600">
+                    <span className="ml-4 text-md md:text-2xl  line-through text-gray-600">
                      {product?.oldPrice}  DA
                     </span>
 
                     {deduction > 0 && (
-                      <div className="ml-12 bg-purple-800 text-white h-fit px-2 font-bold rounded-full">
+                      <div className="ml-12 bg-purple-800 text-white h-fit py-1 px-2 font-bold rounded-full">
                         {deduction}% تخفيض
                       </div>
                     )}

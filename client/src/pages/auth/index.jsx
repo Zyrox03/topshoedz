@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../toolkit/productSlice";
 import { setAdmin } from "../../toolkit/authSlice";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../../components/Footer";
 const Auth = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
 
@@ -49,7 +50,6 @@ const Auth = () => {
         const response = await axios.post(
           `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/login`,
           values,
-          { withCredentials: true }
 
         );
         const adminEmail = response.data.user.email;
@@ -70,10 +70,10 @@ const Auth = () => {
   });
 
   return (
-    <div className="h-screen bg-slate-300/50 flex flex-col relative overflow-hidden">
+    <div className=" bg-slate-300/50 flex flex-col relative overflow-hidden">
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
-      <div style={{ marginTop: "6em" }} className="p-6">
+      <div style={{ marginTop: "6em" }} className="p-6 min-h-[70vh]">
         <Title title="تسجيل الدخول" />
 
         <form
@@ -145,6 +145,8 @@ const Auth = () => {
           )}
         </form>
       </div>
+
+      <Footer/>
     </div>
   );
 };

@@ -16,7 +16,6 @@ router.get("/", async (req, res) => {
     const products = await Product.find();
     const specialOffer = await SpecialOffer.find();
 
-    // console.log(specialOffer);
     res
       .status(200)
       .json({
@@ -222,7 +221,6 @@ router.delete("/:slug", async (req, res) => {
 
     // Find the product by slug and remove it
     const deletedProduct = await Product.findOneAndDelete({ slug });
-    console.log("deletedProduct", deletedProduct);
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -235,7 +233,6 @@ router.delete("/:slug", async (req, res) => {
     const updatedProducts = await Product.find();
     const specialOffers = await SpecialOffer.find();
 
-    console.log("specialOffers", specialOffers);
 
     res.status(200).json({
       message: "Product deleted successfully",

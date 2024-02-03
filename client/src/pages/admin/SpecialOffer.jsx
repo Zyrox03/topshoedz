@@ -160,8 +160,8 @@ const SpecialOffer = () => {
             </button>
           </form>
         ) : (
-          <div className="flex justify-between items-center gap-4">
-            <h3>Store can&apos;t be empty before adding a special product</h3>
+          <div className="flex justify-between items-center flex-row-reverse gap-4">
+            <h3>لا يمكن أن يكون المتجر فارغًا قبل إضافة منتج خاص</h3>
             <Link to="/admin/products/new">
               <button
                 disabled={loading}

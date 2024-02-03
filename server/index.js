@@ -28,7 +28,7 @@ async function main() {
 // Define a simple mongoose model
 
 app.use(express.json());
-app.use(helmet());
+app.use(helmet({ hsts: { maxAge: 31536000, includeSubDomains: true, preload: true } }));
 const corsOptions = {
   origin: 'https://topshoes-dz.pages.dev',
 };

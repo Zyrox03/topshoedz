@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Link as LinkScroll } from "react-scroll";
 export const SideNav = ({ setOpenSideNav, openSideNav, isLanding }) => {
+  const { specialOffer } = useSelector((state) => state.products);
+
   return (
     <div
       style={{ zIndex: 20 }}
@@ -26,49 +29,47 @@ export const SideNav = ({ setOpenSideNav, openSideNav, isLanding }) => {
             onClick={() => setOpenSideNav(false)}
           >
             <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-            الصفحة الرئيسية
-
+              الصفحة الرئيسية
             </li>
           </LinkScroll>
         ) : (
           <Link to="/">
             <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-            الصفحة الرئيسية
-
+              الصفحة الرئيسية
             </li>
           </Link>
         )}
 
         <Link to="/shop">
           <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-          المتجر
+            المتجر
           </li>
         </Link>
 
-        {isLanding ? (
-          <LinkScroll
-            to={"feature"}
-            spy={true}
-            smooth={true}
-            offset={-100}
-            onClick={() => setOpenSideNav(false)}
-          >
-            <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
+        {specialOffer &&
+          (isLanding ? (
+            <LinkScroll
+              to={"feature"}
+              spy={true}
+              smooth={true}
+              offset={-100}
+              onClick={() => setOpenSideNav(false)}
+            >
+              <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
                 عرض خاص
-            </li>
-          </LinkScroll>
-        ) : (
-          <Link to="/">
-            <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
+              </li>
+            </LinkScroll>
+          ) : (
+            <Link to="/">
+              <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
                 عرض خاص
-            </li>
-          </Link>
-        )}
+              </li>
+            </Link>
+          ))}
 
         <Link to="/contact">
           <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-          اتصل بنا
-
+            اتصل بنا
           </li>
         </Link>
       </ul>

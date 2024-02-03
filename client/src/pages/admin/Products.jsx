@@ -3,7 +3,11 @@ import { Modal } from "../../widgets/Modal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setLoading, setSpecialOffer, updateProducts } from "../../toolkit/productSlice";
+import {
+  setLoading,
+  setSpecialOffer,
+  updateProducts,
+} from "../../toolkit/productSlice";
 import { setNotification } from "../../toolkit/notificationSlice";
 
 const Products = () => {
@@ -29,15 +33,15 @@ const Products = () => {
       dispatch(setLoading(true));
 
       const response = await axios.delete(
-        `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/${productToDelete}`
+        `${
+          import.meta.env.VITE_TOP_SHOE_DZ_BASE_API
+        }/products/${productToDelete}`
       );
 
       // Assuming the server responds with the updated list of products after deletion
       const { updatedProducts, message, specialOffer } = response.data;
 
       // You can handle the updated products data as needed (e.g., update the Redux state)
-      console.log("Product deleted successfully");
-      console.log("Updated products:", updatedProducts);
 
       dispatch(setSpecialOffer(specialOffer));
       dispatch(updateProducts(updatedProducts));
@@ -97,33 +101,35 @@ const Products = () => {
                 </td>
                 <td className="py-2 px-4 border-b">${price} </td>
                 <td className="py-2 px-4 border-b">{stock} </td>
-                <td className="py-2 px-4 border-b">
-                  <Link to={`/admin/products/${slug}`}>
-                    <button className="bg-blue-500 text-white px-2 py-1 rounded">
-                      <i className="fa-solid fa-pen"></i>
-                    </button>
-                  </Link>
-                  <button
-                    onClick={() => openDelete(slug)}
-                    className="bg-red-500 text-white px-2 py-1 rounded ml-2"
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                  <Link to={`/${slug}`}>
-                    <button
-                      onClick={() => openDelete(slug)}
-                      className="hidden lg:inline bg-purple-600 text-white px-2 py-1 rounded ml-2"
-                    >
-                      <i className="fa-solid fa-eye"></i>
-                    </button>
-                  </Link>
-                  {specialOffer?.slug === slug && (
-                    <Link to={`/admin/special-offer`}>
-                      <button className="hidden lg:inline bg-pink-500 text-white px-2 py-1 rounded ml-2">
-                        <i className="fa-solid fa-star"></i>
+                <td className="py-2 px-4 border-b ">
+                  <div className="flex gap-1 lg:gap-2">
+                    <Link to={`/admin/products/${slug}`}>
+                      <button className="bg-blue-500 text-white px-2 py-1 rounded ">
+                        <i className="fa-solid fa-pen"></i>
                       </button>
                     </Link>
-                  )}
+                    <button
+                      onClick={() => openDelete(slug)}
+                      className="bg-red-500 text-white px-2 py-1 rounded "
+                    >
+                      <i className="fas fa-trash"></i>
+                    </button>
+                    <Link to={`/${slug}`}>
+                      <button
+                        onClick={() => openDelete(slug)}
+                        className="bg-purple-600 text-white px-2 py-1 rounded "
+                      >
+                        <i className="fa-solid fa-eye"></i>
+                      </button>
+                    </Link>
+                    {specialOffer?.slug === slug && (
+                      <Link to={`/admin/special-offer`}>
+                        <button className="bg-pink-500 text-white px-2 py-1 rounded ">
+                          <i className="fa-solid fa-star"></i>
+                        </button>
+                      </Link>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
@@ -140,7 +146,8 @@ const Products = () => {
       >
         <div className="mt-2">
           <p className="text-sm text-gray-800">
-          Êtes-vous sûr(e) de vouloir supprimer ce produit ? Cette action ne peut pas être annulée.
+            Êtes-vous sûr(e) de vouloir supprimer ce produit ? Cette action ne
+            peut pas être annulée.
           </p>
         </div>
 

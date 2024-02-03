@@ -23,16 +23,16 @@ export const Feature = () => {
   );
   return (
     specialOffer && (
-      <div className="flex flex-col items-center  justify-center" id="feature">
+      <div className="flex flex-col items-center justify-center" id="feature">
         <div className="bg-purple-400/50 rounded-2xl w-[80%] min-h-[400px] flex flex-col-reverse lg:flex-row items-center p-4 gap-4 relative overflow-hidden">
           <img
-            className="absolute h-full object-cover w-full z-0 opacity-[0.5]"
+            className="absolute h-full object-cover w-full z-0 opacity-[0.5] "
             src="https://static.vecteezy.com/system/resources/thumbnails/011/577/787/small/3d-rendered-colorful-confetti-with-fun-color-png.png"
             alt=""
           />
 
           {product.images[0]?.image?.path && (
-            <div className="flex-1 h-full z-10">
+            <div className="flex-1 h-full z-10 ">
               <img
                 src={product.images[0]?.image?.path}
                 alt="special offer"
@@ -47,7 +47,7 @@ export const Feature = () => {
           >
             <h2 className="text-xl font-bold text-purple-800">عرض خاص</h2>
             {deduction > 0 && (
-              <span className="text-5xl font-bold bg-purple-800 text-white p-2 w-fit rounded-lg shadow-xl">تخفيض {deduction}% </span>
+              <span className="text-2xl lg:text-4xl font-bold bg-purple-800 text-white p-2 w-fit rounded-lg shadow-xl">تخفيض {deduction}% </span>
             )}
             <p
               dir="rtl"
