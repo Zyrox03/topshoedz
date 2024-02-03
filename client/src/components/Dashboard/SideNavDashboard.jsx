@@ -56,7 +56,7 @@ const SideNavDashboard = ({ setSidebar, activeLink, sidebar }) => {
 
           <div
             onClick={() => dispatch(setAdmin(null))}
-            className={`cursor-pointer flex w-full items-center justify-start gap-12 text-white rounded-lg py-2 px-4 active:scale-95 block py-2  text-white transition hover:bg-purple-700`}
+            className={`cursor-pointer flex w-full items-center justify-start gap-4 text-white rounded-lg py-2 px-4 active:scale-95 block py-2  text-white transition hover:bg-purple-700`}
           >
             <i className="fa-solid fa-right-from-bracket"></i>{" "}
             <p className="text-lg font-bold text-start">Déconnexion </p>

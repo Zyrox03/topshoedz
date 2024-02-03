@@ -50,6 +50,7 @@ export const CheckoutForm = ({
     
     onSubmit: async (values) => {
       try {
+        console.log(values)
         await axios.post(`${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`, values);
         setOrderSuccess(true);
       } catch (error) {

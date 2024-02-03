@@ -99,7 +99,7 @@ const Products = () => {
                   />
                   {name}{" "}
                 </td>
-                <td className="py-2 px-4 border-b">${price} </td>
+                <td className="py-2 px-4 border-b">{price} DA </td>
                 <td className="py-2 px-4 border-b">{stock} </td>
                 <td className="py-2 px-4 border-b ">
                   <div className="flex gap-1 lg:gap-2">

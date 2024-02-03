@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { NavBar } from "../../components/NavBar";
-import { SideNav } from "../../components/sideNav";
+import { SideNav } from "../../components/SideNav";
 import { Footer } from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { BestProducts } from "../../components/LandingPage/BestProducts";
@@ -80,6 +80,7 @@ const ProductDetails = () => {
     productInfo: {
       name: null,
       price: null,
+      slug: null,
     },
   });
 
@@ -91,6 +92,7 @@ const ProductDetails = () => {
         productInfo: {
           name: product.name,
           price: product.price,
+          slug: product.slug,
         },
       }));
     }
@@ -112,7 +114,7 @@ const ProductDetails = () => {
     const colorSet = new Set();
 
     const uniqueColorsArray = product?.images.filter((obj) => {
-      if (obj.productColor.trim() !== '') {
+      if (obj.productColor.trim() !== "") {
         if (!colorSet.has(obj.productColor)) {
           colorSet.add(obj.productColor);
           return true;
@@ -158,7 +160,6 @@ const ProductDetails = () => {
 
   const [formikErrors, setFormikErrors] = useState({});
 
-  console.log("formikErrors => ", formikErrors);
   // Callback function to update Formik errors in the parent
   const handleFormikErrorsChange = (errors) => {
     setFormikErrors(errors);
@@ -218,7 +219,7 @@ const ProductDetails = () => {
                 {product?.oldPrice && (
                   <>
                     <span className="ml-4 text-md md:text-2xl  line-through text-gray-600">
-                     {product?.oldPrice}  DA
+                      {product?.oldPrice} DA
                     </span>
 
                     {deduction > 0 && (

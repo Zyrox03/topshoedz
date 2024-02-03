@@ -7,14 +7,16 @@ const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
 
-  const { loading } = useSelector((state) => state.products);
+  const { loading, items: products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getAllOrders = async () => {
       setLoadingOrders(true);
       try {
-        const response = await axios.get(`${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`
+        );
         const { orders } = response.data;
         setAllOrders(orders);
         console.log(orders);
@@ -87,7 +89,6 @@ const Orders = () => {
         <table className="min-w-full border bg-white">
           <thead>
             <tr>
-              <th className="py-2 px-4 text-start border-b">ID de la commande</th>
               <th className="py-2 px-4 text-start border-b">Article </th>
               <th className="py-2 px-4 text-start border-b">Date</th>
               <th className="py-2 px-4 text-start border-b">Actions</th>
@@ -95,26 +96,40 @@ const Orders = () => {
           </thead>
           <tbody>
             {!loadingOrders ? (
-              allOrders.map((order, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{order._id}</td>
-                  <td className="py-2 px-4 border-b ">
-                    {order.productInfo.name}{" "}
-                  </td>
-                  <td className="py-2 px-4 border-b ">
-                    {" "}
-                    {formatTimestamp(order.createdAt)}{" "}
-                  </td>
-                  <td className="py-2 px-4 border-b ">
-                    <button
-                      onClick={() => openOrder(order)}
-                      className="bg-purple-700 text-white px-2 py-1 rounded ml-2 "
-                    >
-                      <i className="fas fa-eye"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))
+              allOrders.map((order, index) => {
+                const product = products.find(
+                  (product) => product.slug === order?.productInfo?.slug
+                );
+
+                const productImage =
+                  product?.images[0]?.image?.path ||
+                  "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$";
+
+                return (
+                  <tr key={index}>
+                    <td className="py-2 px-4 border-b   lg:flex lg:items-center lg:gap-3">
+                      <img
+                        src={productImage}
+                        className="w-10 h-10 object-cover"
+                        alt=""
+                      />
+                      {order.productInfo.name}{" "}
+                    </td>
+                    <td className="py-2 px-4 border-b ">
+                      {" "}
+                      {formatTimestamp(order.createdAt)}{" "}
+                    </td>
+                    <td className="py-2 px-4 border-b ">
+                      <button
+                        onClick={() => openOrder(order)}
+                        className="bg-purple-700 text-white px-2 py-1 rounded ml-2 "
+                      >
+                        <i className="fas fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <>LOADING...</>
             )}
