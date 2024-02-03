@@ -30,7 +30,7 @@ async function main() {
 app.use(express.json());
 app.use(helmet());
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: '*',
 };
 
 app.use(cors(corsOptions));

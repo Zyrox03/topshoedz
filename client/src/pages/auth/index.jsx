@@ -30,7 +30,6 @@ const Auth = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const { loading } = useSelector((state) => state.products);
-  console.log(loading);
   // Formik setup
   const formik = useFormik({
     initialValues: {
@@ -49,7 +48,9 @@ const Auth = () => {
         dispatch(setLoading(true));
         const response = await axios.post(
           `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/login`,
-          values
+          values,
+          { withCredentials: true }
+
         );
         const adminEmail = response.data.user.email;
         dispatch(setAdmin(adminEmail));
