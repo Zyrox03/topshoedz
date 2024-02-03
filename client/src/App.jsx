@@ -36,7 +36,9 @@ function App() {
 
 
   if (!products) {
-    return <div>LOADING</div>;
+    return <div className="h-screen w-full flex justify-center items-center">
+      <img src="/logo.jpg" className="max-w-32" alt="store logo" />
+    </div>;
   }
 
   return (
