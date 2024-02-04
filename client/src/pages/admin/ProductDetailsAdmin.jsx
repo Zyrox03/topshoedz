@@ -12,6 +12,7 @@ import {
   updateProducts,
 } from "../../toolkit/productSlice";
 import { setNotification } from "../../toolkit/notificationSlice";
+import { Helmet } from "react-helmet";
 
 const ProductDetailsAdmin = () => {
   const { productID } = useParams();
@@ -35,13 +36,16 @@ const ProductDetailsAdmin = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Le nom est obligatoire"),
-      slug: Yup.string().matches(/^[a-zA-Z0-9-]+$/, "Format de l'identifiant invalide"),
+      slug: Yup.string().matches(
+        /^[a-zA-Z0-9-]+$/,
+        "Format de l'identifiant invalide"
+      ),
       price: Yup.number().required("Le prix est obligatoire"),
       oldPrice: Yup.number().required("L'ancien prix est obligatoire"),
       description: Yup.string().required("La description est obligatoire"),
       stock: Yup.number().required("Le stock est obligatoire"),
     }),
-    
+
     onSubmit: async (values) => {
       try {
         dispatch(setLoading(true));
@@ -88,7 +92,9 @@ const ProductDetailsAdmin = () => {
           navigate("/admin/products");
         } else {
           const response = await axios.put(
-            `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/${product.slug}`,
+            `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/${
+              product.slug
+            }`,
             formData,
             {
               headers: {
@@ -238,7 +244,9 @@ const ProductDetailsAdmin = () => {
       dispatch(setLoading(true));
 
       const response = await axios.delete(
-        `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/${productToDelete}`
+        `${
+          import.meta.env.VITE_TOP_SHOE_DZ_BASE_API
+        }/products/${productToDelete}`
       );
 
       // Assuming the server responds with the updated list of products after deletion
@@ -267,6 +275,63 @@ const ProductDetailsAdmin = () => {
 
   return (
     <div className="bg-white p-4 rounded-md shadow-md">
+      <Helmet>
+        <title>
+          {product ? ` Modifer ${product.name}` : "Ajouter un Produit"}{" "}
+        </title>
+        <meta
+          name="description"
+          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Top Shoe DZ. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
+        />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta
+          property="og:title"
+          content="Top Shoe DZ - Gestion des Produits (Admin)"
+        />
+        <meta
+          property="og:description"
+          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Top Shoe DZ. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+        <meta
+          property="og:url"
+          content={`${
+            product
+              ? `https://topshoes-dz.pages.dev/admin/products/${product?.slug}`
+              : "https://topshoes-dz.pages.dev/admin/products/new"
+          }`}
+        />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Top Shoe DZ - Gestion des Produits (Admin)"
+        />
+        <meta
+          name="twitter:description"
+          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Top Shoe DZ. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="gestion des produits, ajout de produits, mise à jour de produits, détails des produits, images des produits"
+        />
+        <meta name="robots" content="noindex, nofollow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       <h1 className="text-3xl font-bold mb-4">
         {" "}
         {product ? ` Modifer ${product.name}` : "Ajouter un Produit"}{" "}
@@ -293,7 +358,6 @@ const ProductDetailsAdmin = () => {
                 id="name"
                 name="name"
                 placeholder="Entrez votre nom"
-                
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

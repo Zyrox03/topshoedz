@@ -2,14 +2,13 @@ import { useFormik } from "formik";
 import { Footer } from "../../components/Footer";
 import { Title } from "../../widgets/Title";
 import { NavBar } from "../../components/NavBar";
-import { SideNav } from "../../components/sideNav";
+import { SideNav } from "../../components/SideNav";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { Helmet } from "react-helmet";
 
 const Contact = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
-
-  
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -20,7 +19,6 @@ const Contact = () => {
     }
   }, [openSideNav]);
 
-
   const validationSchema = Yup.object({
     name: Yup.string().required("الاسم مطلوب"), // Name is required
     email: Yup.string()
@@ -28,7 +26,7 @@ const Contact = () => {
       .required("البريد الإلكتروني مطلوب"), // Email is required
     message: Yup.string().required("الرسالة مطلوبة"), // Message is required
   });
-  
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -43,25 +41,70 @@ const Contact = () => {
     },
   });
 
-
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
-  },[])
+  }, []);
   return (
     <div className="min-h-screen bg-slate-300/50 flex flex-col relative overflow-hidden">
+      <Helmet>
+        <title>Top Shoe DZ - Contactez-nous</title>
+        <meta
+          name="description"
+          content="Contactez-nous pour toute question ou préoccupation. Nous sommes là pour vous aider!"
+        />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta property="og:title" content="Top Shoe DZ - Contactez-nous" />
+        <meta
+          property="og:description"
+          content="Contactez-nous pour toute question ou préoccupation. Nous sommes là pour vous aider!"
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+        <meta property="og:url" content="https://topshoes-dz.pages.dev/contact" />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Top Shoe DZ - Contactez-nous" />
+        <meta
+          name="twitter:description"
+          content="Contactez-nous pour toute question ou préoccupation. Nous sommes là pour vous aider!"
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="contact, service client, questions, préoccupations"
+        />
+        <meta name="robots" content="index, follow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       {/* ... Your existing code ... */}
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
-      <div style={{marginTop: '5em'}} className="p-6">
+      <div style={{ marginTop: "5em" }} className="p-6">
         <Title title="اتصل بنا" />
 
-        <form dir='rtl' onSubmit={formik.handleSubmit} className="max-w-md mx-auto">
+        <form
+          dir="rtl"
+          onSubmit={formik.handleSubmit}
+          className="max-w-md mx-auto"
+        >
           <div className="mb-4">
             <label htmlFor="name" className="text-gray-800 block mb-2">
-            الاسم
+              الاسم
             </label>
             <input
-            placeholder="أدخل اسمك"
+              placeholder="أدخل اسمك"
               type="text"
               id="name"
               name="name"
@@ -77,10 +120,10 @@ const Contact = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="text-gray-800 block mb-2">
-            البريد الإلكتروني
+              البريد الإلكتروني
             </label>
             <input
-            placeholder="أدخل بريدك الإلكتروني"
+              placeholder="أدخل بريدك الإلكتروني"
               type="email"
               id="email"
               name="email"
@@ -96,10 +139,10 @@ const Contact = () => {
 
           <div className="mb-4">
             <label htmlFor="message" className="text-gray-800 block mb-2">
-            الرسالة
+              الرسالة
             </label>
             <textarea
-            placeholder="أدخل رسالتك"
+              placeholder="أدخل رسالتك"
               id="message"
               name="message"
               onChange={formik.handleChange}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
-import { SideNav } from "../components/sideNav";
+import { SideNav } from "../components/SideNav";
 import { Link, useLocation } from "react-router-dom";
 
 const OrderSuccess = () => {

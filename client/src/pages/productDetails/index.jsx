@@ -12,6 +12,7 @@ import { Link as LinkScroll } from "react-scroll";
 import DOMPurify from "dompurify";
 import ProductNotFound from "../ProductNotFound";
 import OrderSuccess from "../OrderSuccess";
+import { Helmet } from "react-helmet";
 const ProductDetails = () => {
   //
   const { productID } = useParams();
@@ -175,6 +176,39 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen bg-slate-300/50 flex flex-col relative overflow-hidden">
+      <Helmet>
+        <title>{`${product?.name} - ${product?.price} DA`}</title>
+        <meta name="description" content={product?.description} />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta
+          property="og:title"
+          content={`${product?.name} - ${product?.price} DA`}
+        />
+        <meta property="og:description" content={product?.description} />
+        <meta property="og:image" content={product?.images[0]?.image?.path} />
+        <meta property="og:url" content={`https://topshoes-dz.pages.dev/${product?.slug}`} />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={`${product?.name} - ${product?.price} DA`}
+        />
+        <meta name="twitter:description" content={product?.description} />
+        <meta name="twitter:image" content="URL_IMAGE_DU_PRODUIT" />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="détails du produit, achat de chaussures, informations sur les chaussures, expérience d'achat"
+        />
+        <meta name="robots" content="index, follow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "5em" }}>
@@ -209,10 +243,13 @@ const ProductDetails = () => {
               >
                 <button className="lg:hidden w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95">
                   <i className="text-lg fa-solid fa-shopping-cart"></i>
-                  <p className="text-lg font-bold">Acheter</p>
+                  <p className="text-lg font-bold">شراء</p>
                 </button>
               </LinkScroll>
-              <div dir="rtl" className="flex h-fit w-full items-center">
+              <div
+                dir="rtl"
+                className="flex h-fit w-full items-center flex-wrap gap-2"
+              >
                 <h2 className="text-xl md:text-4xl font-bold text-purple-800 ml-2">
                   {product?.price} DA
                 </h2>
@@ -223,7 +260,10 @@ const ProductDetails = () => {
                     </span>
 
                     {deduction > 0 && (
-                      <div className="ml-12 bg-purple-800 text-white h-fit py-1 px-2 font-bold rounded-full">
+                      <div
+                        style={{ whiteSpace: "nowrap" }}
+                        className="ml-12 bg-purple-800 text-white py-1 px-2 font-bold rounded-xl"
+                      >
                         {deduction}% تخفيض
                       </div>
                     )}
@@ -233,7 +273,7 @@ const ProductDetails = () => {
               <div className="flex h-fit w-full items-end flex-col ">
                 <h2 className="text-3xl mb-4">
                   👇
-                  <span className="text-purple-800 underline">
+                  <span className="text-purple-800 underline font-bold">
                     {" "}
                     المواصفات{" "}
                   </span>{" "}
@@ -250,7 +290,7 @@ const ProductDetails = () => {
                 <>
                   {product && uniqueColors?.length > 0 && (
                     <div dir="rtl" className="flex flex-col gap-3 ">
-                      <h2 className="text-3xl mb-4 underline">اللون</h2>
+                      <h2 className="text-3xl mb-4 underline">اللون:</h2>
                       <div className="flex gap-3">
                         {uniqueColors.map((colorObj, index) => (
                           <div
@@ -294,7 +334,7 @@ const ProductDetails = () => {
                     <div dir="rtl" className="flex flex-col gap-3 ">
                       {product && product.size.length > 0 && (
                         <div>
-                          <h2 className="text-3xl mb-4 underline">المقاس</h2>
+                          <h2 className="text-3xl mb-4 underline">المقاس:</h2>
                           <div className="flex gap-3">
                             {product.size.map((size, index) => (
                               <div
@@ -327,7 +367,7 @@ const ProductDetails = () => {
                   )}
 
                   <div dir="rtl" id="variants" className="flex flex-col gap-3 ">
-                    <h2 className="text-3xl mb-4 underline">الكمية</h2>
+                    <h2 className="text-3xl mb-4 underline">الكمية:</h2>
                     <div className="flex gap-3 items-center">
                       <div
                         className="cursor-pointer bg-purple-600 rounded-xl w-10 h-10 border border-2 border-purple-500 flex justify-center items-center transition duration-300 ease-in-out transform hover:scale-110 active:scale-95"

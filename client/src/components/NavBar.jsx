@@ -44,17 +44,16 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
           : "py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md"
       } fixed w-full transition`}
     >
+      {isAdmin ? (
+        <Link className="lg:hidden flex-1 text-black" to="/admin">
+          <Button text="Admin" icon="fa-solid fa-user-tie" />
+        </Link>
+      ) : (
+        <Link className="lg:hidden flex-1 text-black" to="/account">
+          <Button text="حسابي" icon="fa-solid fa-user" />
+        </Link>
+      )}
 
-{isAdmin ? (
-            <Link className="lg:hidden flex-1" to="/admin">
-              <Button text="Admin" icon="fa-solid fa-user-tie" />
-            </Link>
-          ) : (
-            <Link className="lg:hidden flex-1" to="/account">
-              <Button text="حساب" icon="fa-solid fa-user" />
-            </Link>
-          )}
-          
       <div className="lg:flex-1 text-center lg:text-start">
         {isLanding ? (
           <LinkScroll to={"hero"} spy={true} smooth={true} offset={0}>
@@ -78,7 +77,7 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
           </Link>
         )}
       </div>
-      <ul className="hidden lg:flex items-center justify-around flex-1">
+      <ul className="hidden lg:flex items-center flex-row-reverse justify-around flex-1">
         {isLanding ? (
           <LinkScroll to={"hero"} spy={true} smooth={true} offset={0}>
             <li className="hover:text-purple-500 cursor-pointer font-bold transition">
@@ -130,15 +129,13 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
       <div className="flex items-center  flex-1">
         {/* <i className="text-xl fa-solid fa-cart-shopping ml-auto"></i> */}
         <div className="ml-auto flex gap-2 text-black">
-         
-         
-{isAdmin ? (
+          {isAdmin ? (
             <Link className="hidden lg:flex" to="/admin">
               <Button text="Admin" icon="fa-solid fa-user-tie" />
             </Link>
           ) : (
             <Link className="hidden lg:flex" to="/account">
-              <Button text="حساب" icon="fa-solid fa-user" />
+              <Button text="حسابي" icon="fa-solid fa-user" />
             </Link>
           )}
 

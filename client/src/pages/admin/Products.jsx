@@ -9,6 +9,7 @@ import {
   updateProducts,
 } from "../../toolkit/productSlice";
 import { setNotification } from "../../toolkit/notificationSlice";
+import { Helmet } from "react-helmet";
 
 const Products = () => {
   const [deleteProductModal, setDeleteProductModal] = useState(false);
@@ -63,6 +64,57 @@ const Products = () => {
 
   return (
     <div className="container mx-auto">
+      <Helmet>
+        <title>Top Shoe DZ - Gestion des Produits</title>
+        <meta
+          name="description"
+          content="Gérez efficacement les produits sur le portail administratif de Top Shoe DZ. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
+        />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta
+          property="og:title"
+          content="Top Shoe DZ - Gestion des Produits"
+        />
+        <meta
+          property="og:description"
+          content="Gérez efficacement les produits sur le portail administratif de Top Shoe DZ. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+        <meta
+          property="og:url"
+          content="https://topshoes-dz.pages.dev/admin/products"
+        />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Top Shoe DZ - Gestion des Produits"
+        />
+        <meta
+          name="twitter:description"
+          content="Gérez efficacement les produits sur le portail administratif de Top Shoe DZ. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="gestion des produits, contrôle des stocks, ajouter des produits, modifier des produits, supprimer des produits"
+        />
+        <meta name="robots" content="noindex, nofollow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       <div className="flex items-center gap-4 my-4 justify-between flex-wrap">
         <h1 className="text-2xl font-bold mb-4">Gestion des produits</h1>
         <Link to="/admin/products/new">

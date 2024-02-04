@@ -6,7 +6,8 @@ import citiesDZ from "../assets/citiesDZ.json";
 import { useEffect } from "react";
 
 import PropTypes from "prop-types";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../toolkit/productSlice";
 export const CheckoutForm = ({
   selectedOptions,
   handleFormikErrorsChange,
@@ -15,6 +16,8 @@ export const CheckoutForm = ({
   product,
   uniqueColors,
 }) => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.products);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -34,7 +37,7 @@ export const CheckoutForm = ({
       wilaya: Yup.string().required("الولاية مطلوبة"),
       baladiya: Yup.string().required("البلدية مطلوبة"),
       notes: Yup.string(),
-    
+
       size:
         product?.size?.length > 0
           ? Yup.string().required("اختر المقاس")
@@ -47,14 +50,19 @@ export const CheckoutForm = ({
         ? Yup.number().required("الكمية مطلوبة").positive()
         : Yup.number().positive(),
     }),
-    
+
     onSubmit: async (values) => {
       try {
-        console.log(values)
-        await axios.post(`${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`, values);
+        dispatch(setLoading(true));
+        await axios.post(
+          `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`,
+          values
+        );
         setOrderSuccess(true);
       } catch (error) {
         console.error("Error submitting order:", error);
+      } finally {
+        dispatch(setLoading(false));
       }
     },
   });
@@ -208,10 +216,12 @@ export const CheckoutForm = ({
       </div>
       <button
         type="submit"
-        className="w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95"
-      >
+        disabled={loading}
+        className={`w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
+          loading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}      >
         <i className="text-lg fas fa-clipboard-check"></i>
-        <p className="text-lg font-bold">Confirmer La Commande</p>
+        <p className="text-lg font-bold">تأكيد الطلب</p>
       </button>{" "}
     </form>
   );

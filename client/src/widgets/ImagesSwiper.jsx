@@ -23,7 +23,7 @@ export const ImagesSwiper = ({ productImages }) => {
             "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
           }
           alt=""
-          class="${className} object-cover rounded-none h-40 w-full span-col-1 border-2 border-purple-500  rounded-xl"
+          class="${className} object-cover rounded-none w-full h-[100px] lg:h-40 span-col-1 border-2 border-purple-500 rounded-xl"
         />
        
        `;

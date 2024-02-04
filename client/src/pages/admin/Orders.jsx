@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../widgets/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../toolkit/productSlice";
+import { Helmet } from "react-helmet";
 const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
@@ -19,7 +20,6 @@ const Orders = () => {
         );
         const { orders } = response.data;
         setAllOrders(orders);
-        console.log(orders);
       } catch (error) {
         console.log(error);
       } finally {
@@ -82,6 +82,57 @@ const Orders = () => {
 
   return (
     <div className="container mx-auto">
+      <Helmet>
+        <title>Top Shoe DZ - Gestion des Commandes</title>
+        <meta
+          name="description"
+          content="Consultez et gérez les commandes sur le portail administratif de Top Shoe DZ. Suivez les achats, gérez les expéditions et assurez un traitement efficace des commandes clients."
+        />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta
+          property="og:title"
+          content="Top Shoe DZ - Gestion des Commandes (Admin)"
+        />
+        <meta
+          property="og:description"
+          content="Consultez et gérez les commandes sur le portail administratif de Top Shoe DZ. Suivez les achats, gérez les expéditions et assurez un traitement efficace des commandes clients."
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+        <meta
+          property="og:url"
+          content="https://topshoes-dz.pages.dev/admin/orders"
+        />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Top Shoe DZ - Gestion des Commandes (Admin)"
+        />
+        <meta
+          name="twitter:description"
+          content="Consultez et gérez les commandes sur le portail administratif de Top Shoe DZ. Suivez les achats, gérez les expéditions et assurez un traitement efficace des commandes clients."
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="gestion des commandes, suivi des achats, expéditions, traitement des commandes clients"
+        />
+        <meta name="robots" content="noindex, nofollow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       <div className="flex items-center gap-4 my-4 justify-between flex-wrap">
         <h1 className="text-2xl font-bold mb-4">Aperçu des commandes</h1>
       </div>

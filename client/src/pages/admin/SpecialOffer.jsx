@@ -8,6 +8,7 @@ import axios from "axios";
 import { setNotification } from "../../toolkit/notificationSlice";
 import { setSpecialOffer } from "../../toolkit/productSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const SpecialOffer = () => {
   const {
     loading,
@@ -32,7 +33,9 @@ const SpecialOffer = () => {
       try {
         // Use Axios to set up the special offer
         const response = await axios.post(
-          `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products/setup-special-offer/${specialProduct?.slug}`,
+          `${
+            import.meta.env.VITE_TOP_SHOE_DZ_BASE_API
+          }/products/setup-special-offer/${specialProduct?.slug}`,
           {
             deadline: format(values.deadline, "yyyy-MM-dd'T'HH:mm:ss"),
             specialDescription: values.specialDescription,
@@ -69,6 +72,57 @@ const SpecialOffer = () => {
 
   return (
     <div className="bg-white p-4 rounded-md shadow-md flex flex-col gap-4">
+      <Helmet>
+        <title>Top Shoe DZ - Configuration des Offres Spéciales</title>
+        <meta
+          name="description"
+          content="Configurez les offres spéciales sur le portail administratif de Top Shoe DZ. Gérez les réductions et les promotions pour offrir des avantages exclusifs aux clients."
+        />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta
+          property="og:title"
+          content="Top Shoe DZ - Configuration des Offres Spéciales (Admin)"
+        />
+        <meta
+          property="og:description"
+          content="Configurez les offres spéciales sur le portail administratif de Top Shoe DZ. Gérez les réductions et les promotions pour offrir des avantages exclusifs aux clients."
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+        <meta
+          property="og:url"
+          content="https://topshoes-dz.pages.dev/admin/special-offer"
+        />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Top Shoe DZ - Configuration des Offres Spéciales (Admin)"
+        />
+        <meta
+          name="twitter:description"
+          content="Configurez les offres spéciales sur le portail administratif de Top Shoe DZ. Gérez les réductions et les promotions pour offrir des avantages exclusifs aux clients."
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="configuration des offres spéciales, réductions, promotions, avantages clients"
+        />
+        <meta name="robots" content="noindex, nofollow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       <div className="flex gap-4">
         {products &&
           products.length > 0 &&

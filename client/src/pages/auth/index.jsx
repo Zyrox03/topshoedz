@@ -10,6 +10,7 @@ import { setLoading } from "../../toolkit/productSlice";
 import { setAdmin } from "../../toolkit/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Footer } from "../../components/Footer";
+import { Helmet } from "react-helmet";
 const Auth = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
 
@@ -49,8 +50,7 @@ const Auth = () => {
         dispatch(setLoading(true));
         const response = await axios.post(
           `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/login`,
-          values,
-
+          values
         );
         const adminEmail = response.data.user.email;
         dispatch(setAdmin(adminEmail));
@@ -71,6 +71,51 @@ const Auth = () => {
 
   return (
     <div className=" bg-slate-300/50 flex flex-col relative overflow-hidden">
+      <Helmet>
+        <title>Top Shoe DZ - Connexion</title>
+        <meta
+          name="description"
+          content="Connectez-vous ou inscrivez-vous sur Top Shoe DZ pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
+        />
+
+        {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
+        <meta property="og:title" content="Top Shoe DZ - Connexion" />
+        <meta
+          property="og:description"
+          content="Connectez-vous ou inscrivez-vous sur Top Shoe DZ pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+        <meta
+          property="og:url"
+          content="https://topshoes-dz.pages.dev/account"
+        />
+
+        {/* Balises Twitter Card pour le partage sur Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Top Shoe DZ - Connexion" />
+        <meta
+          name="twitter:description"
+          content="Connectez-vous ou inscrivez-vous sur Top Shoe DZ pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
+        />
+        <meta
+          name="twitter:image"
+          content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
+        />
+
+        {/* Balises méta supplémentaires */}
+        <meta
+          name="keywords"
+          content="connexion, inscription, compte utilisateur, commandes, offres exclusives"
+        />
+        <meta name="robots" content="index, follow" />
+
+        {/* Balise meta viewport pour le design responsive */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Helmet>
+
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "6em" }} className="p-6 min-h-[70vh]">
@@ -146,7 +191,7 @@ const Auth = () => {
         </form>
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

@@ -19,7 +19,7 @@ export const Feature = () => {
   );
 
   const sanitizedDescription = DOMPurify.sanitize(
-    product?.description.replace(/\n/g, "<br>")
+    specialOffer?.specialDescription.replace(/\n/g, "<br>")
   );
   return (
     specialOffer && (
@@ -31,10 +31,10 @@ export const Feature = () => {
             alt=""
           />
 
-          {product.images[0]?.image?.path && (
+          {product?.images[0]?.image?.path && (
             <div className="flex-1 h-full z-10 ">
               <img
-                src={product.images[0]?.image?.path}
+                src={product?.images[0]?.image?.path}
                 alt="special offer"
                 className="h-full  max-w-96 object-contain rounded-lg p-4"
               />
@@ -55,7 +55,7 @@ export const Feature = () => {
               dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
             ></p>
 
-            <Timer deadline={specialOffer.deadline} />
+            <Timer deadline={specialOffer?.deadline} />
 
             <Link to={`/${specialOffer?.slug}`}>
               <Button text="انظر" icon="fa-solid fa-tag" />
