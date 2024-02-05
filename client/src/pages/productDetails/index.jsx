@@ -103,7 +103,6 @@ const ProductDetails = () => {
 
   // State to hold the unique colors array
   const [uniqueColors, setUniqueColors] = useState([]);
-
   const handleColorClick = (color) => {
     setSelectedOptions((prevOptions) => ({
       ...prevOptions,
@@ -115,14 +114,16 @@ const ProductDetails = () => {
     const colorSet = new Set();
 
     const uniqueColorsArray = product?.images.filter((obj) => {
-      if (obj.productColor.trim() !== "") {
-        if (!colorSet.has(obj.productColor)) {
-          colorSet.add(obj.productColor);
+      const trimmedColor = obj.productColor.trim().toLowerCase();
+      if (trimmedColor !== "") {
+        if (!colorSet.has(trimmedColor)) {
+          colorSet.add(trimmedColor);
           return true;
         }
       }
       return false;
     });
+    
 
     setUniqueColors(uniqueColorsArray);
   }, [product]); // Empty dependency array ensures the effect runs only once on component mount
@@ -187,7 +188,10 @@ const ProductDetails = () => {
         />
         <meta property="og:description" content={product?.description} />
         <meta property="og:image" content={product?.images[0]?.image?.path} />
-        <meta property="og:url" content={`https://topshoes-dz.pages.dev/${product?.slug}`} />
+        <meta
+          property="og:url"
+          content={`https://topshoes-dz.pages.dev/${product?.slug}`}
+        />
 
         {/* Balises Twitter Card pour le partage sur Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -212,7 +216,7 @@ const ProductDetails = () => {
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "5em" }}>
-        <div className="p-8 flex flex-col gap-6">
+        <div className="p-4 lg:p-8 flex flex-col gap-6">
           <h1 dir="rtl" className="text-3xl lg:text-5xl font-bold">
             {product?.name}{" "}
           </h1>
@@ -291,11 +295,11 @@ const ProductDetails = () => {
                   {product && uniqueColors?.length > 0 && (
                     <div dir="rtl" className="flex flex-col gap-3 ">
                       <h2 className="text-3xl mb-4 underline">اللون:</h2>
-                      <div className="flex gap-3">
+                      <div className="flex flex-wrap gap-3">
                         {uniqueColors.map((colorObj, index) => (
                           <div
                             key={index}
-                            className={`circle cursor-pointer rounded-3xl w-20 h-20 border border-2 transition  ${
+                            className={`circle cursor-pointer rounded-3xl w-16 h-16 border border-2 transition  ${
                               selectedOptions.color === colorObj.productColor
                                 ? "bg-purple-200 border-purple-800 p-1"
                                 : "bg-slate-200"
@@ -335,7 +339,7 @@ const ProductDetails = () => {
                       {product && product.size.length > 0 && (
                         <div>
                           <h2 className="text-3xl mb-4 underline">المقاس:</h2>
-                          <div className="flex gap-3">
+                          <div className="flex flex-wrap gap-3">
                             {product.size.map((size, index) => (
                               <div
                                 key={index}

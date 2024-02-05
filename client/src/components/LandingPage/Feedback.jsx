@@ -2,27 +2,8 @@ import { useEffect } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import { Title } from "../../widgets/Title";
+import testimonials from "../../assets/testimonials.json";
 export const Feedback = () => {
-  const testimonials = [
-    {
-      name: "Lina A.",
-      text: "أحذية عالية الجودة وخدمة استثنائية! لقد وجدت الزوج المثالي لكل مناسبة. التوصيل سريع والتغليف محكم. أوصي بشدة بهذا المتجر عبر الإنترنت!",
-      feedback: "تجربة رائعة! أنا راضية تمامًا عن الجودة والخدمة. شكرًا لكم!",
-    },
-    {
-      name: "Karim H.",
-      text: "تجربة عملاء ممتازة! تشكيلة رائعة من الأحذية، وتصفح الموقع سهل. طلباتي دائمًا وصلت في الوقت المحدد، وجودة المنتجات دائمًا على المستوى. شكرًا لكم على كل شيء!",
-      feedback:
-        "أنا سعيد جدًا بتجربتي. خدمة سريعة ومنتجات رائعة. أشكركم على الاهتمام بالتفاصيل!",
-    },
-    {
-      name: "Nour K.",
-      text: "أنا وفية لهذا المتجر منذ وقت طويل. آخر صيحات الموضة بأسعار تنافسية. الأحذية مريحة ودائمة. خدمة العملاء سريعة الاستجابة ومهذبة. مكان لا غنى عنه لجميع عشاق الأحذية الجميلة!",
-      feedback:
-        "تجربة ممتازة! أنا راضية تمامًا ولن أتردد في التسوق مرة أخرى. شكرًا للفريق!",
-    },
-  ];
-
   useEffect(() => {
     // Initialize Swiper inside the useEffect function
     const swiper = new Swiper(".feedbackSwiper", {
@@ -66,7 +47,7 @@ export const Feedback = () => {
 
       <div
         dir="rtl"
-        className="feedbackSwiper  max-w-[90%] flex flex-wrap items-center justify-around gap-12 "
+        className="feedbackSwiper max-w-[85%] lg:max-w-[50%] flex flex-wrap items-center justify-around gap-12 "
       >
         <div className="swiper-wrapper">
           {testimonials &&

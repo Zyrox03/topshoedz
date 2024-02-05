@@ -109,7 +109,6 @@ export const CheckoutForm = ({
   }, [formik.values.wilaya]);
 
 
-  console.log(formik.touched)
   return (
     <form
       dir="rtl"

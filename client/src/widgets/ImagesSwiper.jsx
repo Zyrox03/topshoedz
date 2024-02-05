@@ -72,14 +72,14 @@ export const ImagesSwiper = ({ productImages }) => {
         </div>
       </div>
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${productImages.length}, 1fr)`,
-          width: '80%',
-          gap: 4,
-        }}
-        className={`pagination mx-auto`}
-      ></div>
+  style={{
+    display: "grid",
+    gridTemplateColumns: `repeat(auto-fit, minmax(100px, 1fr))`, // Adjusted to be responsive
+    width: '80%',
+    gap: 4,
+  }}
+  className={`pagination mx-auto `}
+></div>
     </div>
   );
 };

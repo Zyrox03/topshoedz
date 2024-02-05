@@ -12,7 +12,7 @@ export const ProductCard = ({ product }) => {
     <Link
       to={`/${product.slug}`}
       className="flex flex-col gap-2 lg:w-[20em] p-4  bg-slate-100 rounded-lg relative shadow-lg"
-      dir='rtl'
+      dir="rtl"
     >
       <div className="overflow-hidden rounded-lg ">
         {/* discount tag */}
@@ -33,13 +33,15 @@ export const ProductCard = ({ product }) => {
       </div>
 
       <h2 className="text-md lg:text-xl font-bold">{product.name}</h2>
-      <p className="lg:text-2xl font-bold">
-         DA {product.price}{" "}
+      <p className="lg:text-2xl font-bold ">
         {product.oldPrice && (
           <span className="text-sm font-normal line-through">
-             DA {product.oldPrice}
+            DA {product.oldPrice}
           </span>
         )}
+        {" "}
+        <span className="text-purple-700">DA {product.price} </span>
+
       </p>
 
       <button className="hidden w-full lg:flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95">
