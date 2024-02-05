@@ -64,8 +64,8 @@ const LandingPage = () => {
       />
       <Hero />
       {/* <BestProducts productsList={products} /> */}
-      <Feature />
       <ProductsSection productsList={products} />
+      <Feature />
       <Feedback />
       <Footer />
     </div>

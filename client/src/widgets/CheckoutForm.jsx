@@ -5,6 +5,7 @@ import axios from "axios";
 import citiesDZ from "../assets/citiesDZ.json";
 import { useEffect } from "react";
 
+
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../toolkit/productSlice";
@@ -54,6 +55,7 @@ export const CheckoutForm = ({
     onSubmit: async (values) => {
       try {
         dispatch(setLoading(true));
+
         await axios.post(
           `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`,
           values
@@ -61,6 +63,14 @@ export const CheckoutForm = ({
         setOrderSuccess(true);
       } catch (error) {
         console.error("Error submitting order:", error);
+        // Scroll to the element with id 'variants' when there's an error
+        const variantsElement = document.getElementById("variants");
+        if (variantsElement) {
+          window.scrollTo({
+            top: variantsElement.offsetTop,
+            behavior: "smooth",
+          });
+        }
       } finally {
         dispatch(setLoading(false));
       }
@@ -98,6 +108,8 @@ export const CheckoutForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.wilaya]);
 
+
+  console.log(formik.touched)
   return (
     <form
       dir="rtl"
@@ -217,12 +229,26 @@ export const CheckoutForm = ({
       <button
         type="submit"
         disabled={loading}
-        className={`w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
-          loading ? 'opacity-50 cursor-not-allowed' : ''
-        }`}      >
+        className={`animate-bounce w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
+          loading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+      >
         <i className="text-lg fas fa-clipboard-check"></i>
         <p className="text-lg font-bold">تأكيد الطلب</p>
       </button>{" "}
+
+      {formik.touched && (
+  <div>
+  {Object.keys(formik.errors).map((fieldName) => (
+  formik.touched[fieldName] && (
+    <div key={fieldName} className="text-red-500 text-sm mt-1">
+      {formik.errors[fieldName]}
+    </div>
+  )
+))[0]}
+
+  </div>
+)}
     </form>
   );
 };

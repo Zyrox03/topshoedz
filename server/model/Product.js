@@ -20,7 +20,6 @@ const productSchema = new mongoose.Schema({
       message: "Invalid or reserved slug",
     },
   },
-
   price: {
     type: Number,
     required: true,
@@ -38,7 +37,6 @@ const productSchema = new mongoose.Schema({
           type: String,
         },
       },
-
       productColor: {
         type: String,
       },
@@ -56,6 +54,21 @@ const productSchema = new mongoose.Schema({
       type: String, // Change to String for an array of strings
     },
   ],
+});
+
+// Define a pre hook to automatically trim and lowercase the productColor before saving
+productSchema.pre('save', function(next) {
+  // Loop through each image in the images array
+  this.images.forEach((image) => {
+    // Ensure productColor exists and is a string
+    if (image.productColor && typeof image.productColor === 'string') {
+      // Trim and lowercase the productColor
+      image.productColor = image.productColor.trim().toLowerCase();
+    }
+  });
+
+  // Continue with the save operation
+  next();
 });
 
 const Product = mongoose.model("Product", productSchema);

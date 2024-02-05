@@ -27,7 +27,7 @@ export const Hero = () => {
           من الأحذية العارضة إلى الكعب الأنيق، لدينا التصميم المثالي لكل مناسبة.
           اكتشفوا أحدث الوصولات لدينا واخرجوا بثقة مع Top Shoe DZ.
         </p>
-        <LinkScroll to={"best-selling"} spy={true} smooth={true} offset={-80}>
+        <LinkScroll to={"all-products"} spy={true} smooth={true} offset={-80}>
           <Button text="انظر" icon="fa-solid fa-arrow-down" />
         </LinkScroll>
       </div>

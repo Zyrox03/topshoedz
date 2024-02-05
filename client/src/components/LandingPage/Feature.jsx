@@ -23,7 +23,7 @@ export const Feature = () => {
   );
   return (
     specialOffer && (
-      <div className="flex flex-col items-center justify-center" id="feature">
+      <div className="flex flex-col items-center justify-center lg:p-4" id="feature">
         <div className="bg-purple-400/50 rounded-2xl w-[80%] min-h-[400px] flex flex-col-reverse lg:flex-row items-center p-4 gap-4 relative overflow-hidden">
           <img
             className="absolute h-full object-cover w-full z-0 opacity-[0.5] "
