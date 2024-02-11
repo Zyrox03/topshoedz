@@ -141,49 +141,53 @@ const Orders = () => {
           <thead>
             <tr>
               <th className="py-2 px-4 text-start border-b">Article </th>
+              <th className="py-2 px-4 text-start border-b">Total</th>
               <th className="py-2 px-4 text-start border-b">Date</th>
               <th className="py-2 px-4 text-start border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {!loadingOrders ? (
-              allOrders.map((order, index) => {
-                const product = products.find(
-                  (product) => product.slug === order?.productInfo?.slug
-                );
+          {!loadingOrders ? (
+    allOrders.length > 0 ? (
+        allOrders.map((order, index) => {
+            const product = products.find(product => product.slug === order?.productInfo?.slug);
+            const productImage = product?.images[0]?.image?.path || "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$";
 
-                const productImage =
-                  product?.images[0]?.image?.path ||
-                  "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$";
+            return (
+                <tr key={index}>
+                    <td className="py-2 px-4 text-xs md:text-lg border-b lg:flex lg:items-center lg:gap-3">
+                        <img src={productImage} className="w-10 h-10 object-cover" alt="" />
+                        {order.productInfo.name}
+                    </td>
+                    <td className="py-2 px-4 text-xs md:text-lg border-b">
+                        {order?.orderTotal} DA
+                    </td>
+                    <td className="py-2 px-4 text-xs md:text-lg border-b">
+                        {formatTimestamp(order.createdAt)}
+                    </td>
+                    <td className="py-2 px-4 text-xs md:text-lg border-b">
+                        <button onClick={() => openOrder(order)} className="bg-purple-700 text-white px-2 py-1 rounded ml-2">
+                            <i className="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            );
+        })
+    ) : (
+        <tr>
+            <td className="py-2 px-4 border-b" colSpan="3">
+                Aucune commande pour le moment.
+            </td>
+        </tr>
+    )
+) : (
+    <tr>
+        <td className="py-2 px-4 border-b" colSpan="3">
+            Chargement...
+        </td>
+    </tr>
+)}
 
-                return (
-                  <tr key={index}>
-                    <td className="py-2 px-4 border-b   lg:flex lg:items-center lg:gap-3">
-                      <img
-                        src={productImage}
-                        className="w-10 h-10 object-cover"
-                        alt=""
-                      />
-                      {order.productInfo.name}{" "}
-                    </td>
-                    <td className="py-2 px-4 border-b ">
-                      {" "}
-                      {formatTimestamp(order.createdAt)}{" "}
-                    </td>
-                    <td className="py-2 px-4 border-b ">
-                      <button
-                        onClick={() => openOrder(order)}
-                        className="bg-purple-700 text-white px-2 py-1 rounded ml-2 "
-                      >
-                        <i className="fas fa-eye"></i>
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <>LOADING...</>
-            )}
           </tbody>
         </table>
       </div>
@@ -194,7 +198,7 @@ const Orders = () => {
           onClose={onCloseView}
           modalTitle={`Détails de la commande `}
         >
-          <div className=" mx-auto grid grid-cols-2 gap-6">
+          <div className=" mx-auto grid grid-cols-2 gap-6 ">
             <div>
               <p className="text-sm text-gray-600">Nom du client:</p>
               <p className="text-lg font-semibold">{orderToView?.name}</p>
@@ -227,32 +231,65 @@ const Orders = () => {
               <p className="text-lg font-semibold">{orderToView?.baladiya}</p>
             </div>
 
-            <div>
-              <p className="text-sm text-gray-600">Taille:</p>
-              <p className="text-lg font-semibold">{orderToView?.size}</p>
-            </div>
+            {orderToView?.deliveryOption?.livraisonType && (
+              <div>
+                <p className="text-sm text-gray-600">Type de livraison:</p>
+                <p className="text-lg font-semibold">
+                  {orderToView?.deliveryOption.livraisonType}
+                </p>
+              </div>
+            )}
+
+            {orderToView?.deliveryOption?.livraisonPrice && (
+              <div>
+                <p className="text-sm text-gray-600">Prix de livraison:</p>
+                <p className="text-lg font-semibold">
+                  {orderToView?.deliveryOption.livraisonPrice}
+                </p>
+              </div>
+            )}
+
+            {orderToView?.size && (
+              <div>
+                <p className="text-sm text-gray-600">Taille:</p>
+                <p className="text-lg font-semibold">{orderToView?.size}</p>
+              </div>
+            )}
+           
 
             <div>
               <p className="text-sm text-gray-600">Quantité:</p>
               <p className="text-lg font-semibold">{orderToView?.quantity}</p>
             </div>
 
-            <div>
-              <p className="text-sm text-gray-600">Couleur:</p>
-              <p className="text-lg font-semibold">{orderToView?.color}</p>
-            </div>
+            {orderToView?.color && (
+              <div>
+                <p className="text-sm text-gray-600">Couleur:</p>
+                <p className="text-lg font-semibold">{orderToView?.color}</p>
+              </div>
+            )}
 
             <div>
               <p className="text-sm text-gray-600">Notes:</p>
-              <p className="text-lg font-semibold">{orderToView?.notes}</p>
+              <p className="text-lg font-semibold">
+                {orderToView?.notes || "Aucune note"}
+              </p>
             </div>
+
             <div>
               <p className="text-sm text-gray-600">Date:</p>
               <p className="text-lg font-semibold">
                 {formatTimestamp(orderToView?.createdAt)}
               </p>
             </div>
-            {/* Add more grid items as needed */}
+
+            {orderToView?.orderTotal && (
+              <div>
+                <p className="text-sm text-gray-600">Total:</p> 
+                <p className="text-lg font-semibold">{orderToView?.orderTotal} DA</p>
+              </div>
+            )}
+
           </div>
 
           <div className="flex items-center gap-3">

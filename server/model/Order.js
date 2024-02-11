@@ -18,6 +18,17 @@ const orderSchema = new mongoose.Schema(
     baladiya: {
       type: String,
     },
+    deliveryOption: {
+      livraisonType: {
+        type: String,
+        required: true,
+      },
+      livraisonPrice: {
+        type: Number,
+        required: true,
+      },
+    },
+
     notes: {
       type: String,
     },
@@ -36,6 +47,12 @@ const orderSchema = new mongoose.Schema(
       price: Number,
       slug : String
     },
+
+    orderTotal: {
+      type: Number, 
+      required: true,
+    }
+
   },
   {
     timestamps: true, 

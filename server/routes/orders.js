@@ -22,6 +22,7 @@ router.post("/", async (req, res) => {
       phone,
       wilaya,
       baladiya,
+      deliveryOption,
       notes,
       size,
       color,
@@ -29,17 +30,23 @@ router.post("/", async (req, res) => {
       productInfo,
     } = req.body;
 
+    const deliveryPrice = deliveryOption.livraisonPrice;
+    const productPrice = productInfo.price;
+    const orderTotal = productPrice * quantity + deliveryPrice;
+
     // Create a new order using the Order model
     const newOrder = new Order({
       name,
       phone,
       wilaya,
       baladiya,
+      deliveryOption,
       notes,
       size,
       color,
       quantity,
       productInfo,
+      orderTotal,
     });
 
     // Save the order to the database
@@ -112,7 +119,7 @@ router.post("/", async (req, res) => {
         </html>
       `;
 
-    await sendEmailNotification(emailSubject, emailBody);
+    // await sendEmailNotification(emailSubject, emailBody);
   } catch (error) {
     console.error("Error handling order submission:", error);
     res.status(500).json({ error: "Internal Server Error" });

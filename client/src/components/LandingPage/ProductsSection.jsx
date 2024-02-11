@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 export const ProductsSection = ({ productsList }) => {
   return (
-    <div className="flex flex-col items-center gap-12 p-8" id="all-products">
+    <div className="flex flex-col items-center gap-12 p-4 lg:p-8" id="all-products">
       <Title
         title="منتجاتنا"
         sub_title="اكتشفوا الأناقة في كل تفصيل - مجموعة حصرية لكل أسلوب ومناسبة"

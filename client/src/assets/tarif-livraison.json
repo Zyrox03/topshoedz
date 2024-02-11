@@ -1,0 +1,412 @@
+[
+  {
+    "codeW": 1,
+    "livraison": {
+      "bureau": "900",
+      "domicile": "1250"
+    }
+  },
+  {
+    "codeW": 2,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 3,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "900"
+    }
+  },
+  {
+    "codeW": 4,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 5,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 6,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 7,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "900"
+    }
+  },
+  {
+    "codeW": 8,
+    "livraison": {
+      "bureau": "700",
+      "domicile": "1200"
+    }
+  },
+  {
+    "codeW": 9,
+    "livraison": {
+      "bureau": "400",
+      "domicile": "550"
+    }
+  },
+  {
+    "codeW": 10,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "700"
+    }
+  },
+  {
+    "codeW": 11,
+    "livraison": {
+      "bureau": "1050",
+      "domicile": "1450"
+    }
+  },
+  {
+    "codeW": 12,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "850"
+    }
+  },
+  {
+    "codeW": 13,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 14,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 15,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 16,
+    "livraison": {
+      "bureau": "350",
+      "domicile": "600"
+    }
+  },
+  {
+    "codeW": 17,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 18,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 19,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 20,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 21,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 22,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 23,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 24,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 25,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 26,
+    "livraison": {
+      "bureau": "300",
+      "domicile": "450"
+    }
+  },
+  {
+    "codeW": 27,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 28,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 29,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 30,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "950"
+    }
+  },
+  {
+    "codeW": 31,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 32,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "950"
+    }
+  },
+  {
+    "codeW": 33,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1450"
+    }
+  },
+  {
+    "codeW": 34,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 35,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 36,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 37,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1550"
+    }
+  },
+  {
+    "codeW": 38,
+    "livraison": {
+      "bureau": "",
+      "domicile": "700"
+    }
+  },
+  {
+    "codeW": 39,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "900"
+    }
+  },
+  {
+    "codeW": 40,
+    "livraison": {
+      "bureau": "",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 41,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 42,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "750"
+    }
+  },
+  {
+    "codeW": 43,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 44,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 45,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "1150"
+    }
+  },
+  {
+    "codeW": 46,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 47,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "900"
+    }
+  },
+  {
+    "codeW": 48,
+    "livraison": {
+      "bureau": "500",
+      "domicile": "800"
+    }
+  },
+  {
+    "codeW": 49,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1350"
+    }
+  },
+
+  {
+    "codeW": 50,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1750"
+    }
+  },
+
+  {
+    "codeW": 51,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "900"
+    }
+  },
+
+  {
+    "codeW": 52,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1350"
+    }
+  },
+  {
+    "codeW": 53,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1550"
+    }
+  },
+  {
+    "codeW": 54,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1550"
+    }
+  },
+  {
+    "codeW": 55,
+    "livraison": {
+      "bureau": "600",
+      "domicile": "900"
+    }
+  },
+  {
+    "codeW": 56,
+    "livraison": {
+      "bureau": "",
+      "domicile": "1750"
+    }
+  },
+  {
+    "codeW": 57,
+    "livraison": {
+      "bureau": "",
+      "domicile": "900"
+    }
+  },
+
+  {
+    "codeW": 58,
+    "livraison": {
+      "bureau": "",
+      "domicile": "950"
+    }
+  }
+]

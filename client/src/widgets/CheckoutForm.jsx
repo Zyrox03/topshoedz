@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import Select from "react-select";
 import axios from "axios";
 import citiesDZ from "../assets/citiesDZ.json";
-import { useEffect } from "react";
-
+import tarifsLivraison from "../assets/tarif-livraison.json";
+import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +25,7 @@ export const CheckoutForm = ({
       phone: "",
       wilaya: "",
       notes: "",
+      deliveryOption: "",
       ...selectedOptions,
     },
     validationSchema: Yup.object({
@@ -50,15 +51,27 @@ export const CheckoutForm = ({
       quantity: selectedOptions
         ? Yup.number().required("الكمية مطلوبة").positive()
         : Yup.number().positive(),
+
+      deliveryOption: Yup.string().required("يرجى اختيار خيار التوصيل"),
     }),
 
     onSubmit: async (values) => {
       try {
         dispatch(setLoading(true));
 
+        const selectedDeliveryOption = deliveryOptions.find(
+          (option) => option.value === values.deliveryOption
+        );
+
+        // Set deliveryOption as an object containing livraisonType and livraisonPrice
+        const deliveryOption = {
+          livraisonType: selectedDeliveryOption.value,
+          livraisonPrice: selectedDeliveryOption.deliveryPrice,
+        };
+
         await axios.post(
           `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`,
-          values
+          { ...values, deliveryOption }
         );
         setOrderSuccess(true);
       } catch (error) {
@@ -101,14 +114,60 @@ export const CheckoutForm = ({
     .map((item) => ({
       value: item.baladiya,
       label: item.baladiya,
+      codeW: item.codeW,
     }));
+
+  const getLivraisonTarifs = (selectedWilayaCode) => {
+    // Find the corresponding tarif object based on the selected wilaya code
+    const tarif = tarifsLivraison.find(
+      (tarif) => tarif.codeW === parseInt(selectedWilayaCode)
+    );
+
+    if (tarif) {
+      return tarif.livraison; // Return the livraison tarifs object
+    } else {
+      return null; // If no matching tarif is found, return null
+    }
+  };
+
+  const [selectedWilayaCode, setSelectedWilayaCode] = useState("");
+  const [deliveryOptions, setDeliveryOptions] = useState([]);
+
+  useEffect(() => {
+    const livraisonTarifs = getLivraisonTarifs(selectedWilayaCode);
+    if (livraisonTarifs) {
+      const options = [
+        {
+          value: "bureau",
+          label: "تسليم في المكتب",
+          deliveryPrice: parseInt(livraisonTarifs.bureau) - 200,
+        },
+        {
+          value: "domicile",
+          label: "تسليم في المنزل",
+          deliveryPrice: parseInt(livraisonTarifs.domicile) - 200,
+        },
+      ];
+      setDeliveryOptions(options);
+
+    } else {
+      setDeliveryOptions([]); // Reset deliveryOptions if no tarifs found
+
+    }
+  }, [formik.values.baladiya]);
 
   useEffect(() => {
     formik.setFieldValue("baladiya", "");
+    formik.setFieldValue("deliveryOption", "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.wilaya]);
 
-
+  const { quantity, productInfo } = formik.values;
+  const deliveryPrice =
+    deliveryOptions.find(
+      (option) => option.value === formik.values.deliveryOption
+    )?.deliveryPrice || 0;
+  const totalPrice = quantity * productInfo.price + deliveryPrice; // Calculate total price including delivery
   return (
     <form
       dir="rtl"
@@ -190,15 +249,41 @@ export const CheckoutForm = ({
           </label>
           <Select
             options={baladiyaDZ}
-            onChange={(option) =>
-              formik.setFieldValue("baladiya", option.value)
-            }
+            onChange={(option) => {
+              formik.setFieldValue("baladiya", option.value),
+                setSelectedWilayaCode(option.codeW);
+            }}
             onBlur={formik.handleBlur}
           />
 
           {formik.errors.baladiya && (
             <div className="text-red-500 text-sm mt-1">
               {formik?.errors?.baladiya}
+            </div>
+          )}
+        </div>
+      )}
+      {formik.values.baladiya && (
+        <div className="mb-4">
+          <label
+            htmlFor="deliveryOption"
+            className="block text-gray-700 text-sm font-medium"
+          >
+            التوصيل
+          </label>
+          <Select
+            options={deliveryOptions}
+            defaultValue={formik.values.deliveryOption}
+            isSearchable={false}
+            onChange={(option) =>
+              formik.setFieldValue("deliveryOption", option.value)
+            }
+            onBlur={formik.handleBlur}
+          />
+
+          {formik.errors.deliveryOption && (
+            <div className="text-red-500 text-sm mt-1">
+              {formik?.errors?.deliveryOption}
             </div>
           )}
         </div>
@@ -225,6 +310,15 @@ export const CheckoutForm = ({
           <div className="text-red-500 text-sm mt-1">{formik.errors.notes}</div>
         )}
       </div>
+      {/* total + livraison */}
+      <div className="flex justify-between mb-4">
+        <span className="font-bold">سعر التوصيل</span>
+        <span className="font-semibold">{deliveryPrice} DA</span>
+      </div>
+      <div className="flex justify-between mb-4">
+        <span className="font-bold">السعر الإجمالي</span>
+        <span className="font-semibold">{totalPrice} DA</span>
+      </div>
       <button
         type="submit"
         disabled={loading}
@@ -235,19 +329,20 @@ export const CheckoutForm = ({
         <i className="text-lg fas fa-clipboard-check"></i>
         <p className="text-lg font-bold">تأكيد الطلب</p>
       </button>{" "}
-
       {formik.touched && (
-  <div>
-  {Object.keys(formik.errors).map((fieldName) => (
-  formik.touched[fieldName] && (
-    <div key={fieldName} className="text-red-500 text-sm mt-1">
-      {formik.errors[fieldName]}
-    </div>
-  )
-))[0]}
-
-  </div>
-)}
+        <div>
+          {
+            Object.keys(formik.errors).map(
+              (fieldName) =>
+                formik.touched[fieldName] && (
+                  <div key={fieldName} className="text-red-500 text-sm mt-1">
+                    {formik.errors[fieldName]}
+                  </div>
+                )
+            )[0]
+          }
+        </div>
+      )}
     </form>
   );
 };

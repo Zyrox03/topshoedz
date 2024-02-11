@@ -70,7 +70,7 @@ const AllProducts = () => {
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "5em" }}>
-        <div className="flex flex-col items-center gap-12 p-8">
+        <div className="flex flex-col items-center gap-12 p-4 lg:p-8">
           <Title
             title="منتجاتنا"
             sub_title="اكتشفوا الأناقة في كل تفصيل - مجموعة حصرية لكل أسلوب ومناسبة"

@@ -23,7 +23,10 @@ export const Feature = () => {
   );
   return (
     specialOffer && (
-      <div className="flex flex-col items-center justify-center lg:p-4" id="feature">
+      <div
+        className="flex flex-col items-center justify-center lg:p-4"
+        id="feature"
+      >
         <div className="bg-purple-400/50 rounded-2xl w-[80%] min-h-[400px] flex flex-col-reverse lg:flex-row items-center p-4 gap-4 relative overflow-hidden">
           <img
             className="absolute h-full object-cover w-full z-0 opacity-[0.5] "
@@ -32,30 +35,33 @@ export const Feature = () => {
           />
 
           {product?.images[0]?.image?.path && (
-            <div className="flex-1 h-full z-10 ">
+            <div className="flex-1 flex items-center justify-center h-full z-10 ">
               <img
                 src={product?.images[0]?.image?.path}
                 alt="special offer"
-                className="h-full  max-w-96 object-contain rounded-lg p-4"
+                className="max-h-[50vh] w-full object-contain rounded-3xl p-4"
               />
             </div>
           )}
 
           <div
             dir="rtl"
-            className="flex-1 flex flex-col gap-6 justify-around z-10"
+            className="flex-1 flex flex-col items-center lg:items-start  gap-6 justify-around z-10"
           >
             <h2 className="text-xl font-bold text-purple-800">عرض خاص</h2>
-            {deduction > 0 && (
-              <span className="text-2xl lg:text-4xl font-bold bg-purple-800 text-white p-2 w-fit rounded-lg shadow-xl">تخفيض {deduction}% </span>
+            {parseFloat(product?.oldPrice) > 0 && deduction > 0 && (
+              <span className="text-2xl lg:text-4xl font-bold bg-purple-800 text-white p-2 w-fit rounded-lg shadow-xl">
+                تخفيض {deduction}%{" "}
+              </span>
             )}
+
             <p
               dir="rtl"
               className="text-lg"
               dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
             ></p>
 
-            <Timer deadline={specialOffer?.deadline} />
+<Timer deadline={specialOffer?.deadline} />
 
             <Link to={`/${specialOffer?.slug}`}>
               <Button text="انظر" icon="fa-solid fa-tag" />

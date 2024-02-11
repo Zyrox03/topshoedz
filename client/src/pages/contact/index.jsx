@@ -6,6 +6,7 @@ import { SideNav } from "../../components/SideNav";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 const Contact = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -27,6 +28,9 @@ const Contact = () => {
     message: Yup.string().required("الرسالة مطلوبة"), // Message is required
   });
 
+  const [contactSuccess, setContactSuccess] = useState(false);
+  const [contactError, setContactError] = useState("");
+  // const [contactLoading, setContactLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -35,9 +39,28 @@ const Contact = () => {
     },
     validationSchema,
 
-    onSubmit: (values) => {
-      // Handle form submission logic here
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        setContactError("");
+        setContactSuccess(false);
+        const response = await axios.post(
+          `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/contact`,
+          values
+        );
+
+        const { message } = response.data;
+        setContactSuccess(message);
+
+        formik.resetForm();
+      } catch (error) {
+        console.log(error);
+        if (error.response) {
+          const { data } = error.response;
+          setContactError(data.error);
+        } else {
+          setContactError("Erreur lors de la requête API");
+        }
+      }
     },
   });
 
@@ -63,7 +86,10 @@ const Contact = () => {
           property="og:image"
           content="https://res.cloudinary.com/duh30yscb/image/upload/v1706972627/Top%20Shoe%20DZ/w8zap4glsiegcrdxk0qq.jpg"
         />
-        <meta property="og:url" content="https://topshoes-dz.pages.dev/contact" />
+        <meta
+          property="og:url"
+          content="https://topshoes-dz.pages.dev/contact"
+        />
 
         {/* Balises Twitter Card pour le partage sur Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -156,12 +182,25 @@ const Contact = () => {
 
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95"
+            className={`flex w-full items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
+              formik.isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={formik.isSubmitting}
           >
             {" "}
             <i className="fa-solid fa-message"></i>
             <p className="text-lg font-bold">إرسال</p>
           </button>
+
+          {contactError && (
+            <div className="text-red-500 text-center my-4">{contactError}</div>
+          )}
+
+          {contactSuccess && (
+            <div className="text-green-600 max-w-md mx-auto text-center my-4 bg-green-100 p-3 rounded-md">
+              {contactSuccess}
+            </div>
+          )}
         </form>
       </div>
       <Footer />

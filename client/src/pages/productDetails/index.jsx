@@ -257,7 +257,7 @@ const ProductDetails = () => {
                 <h2 className="text-xl md:text-4xl font-bold text-purple-800 ml-2">
                   {product?.price} DA
                 </h2>
-                {product?.oldPrice && (
+                {parseFloat(product?.oldPrice) > 0 && (
                   <>
                     <span className="ml-4 text-md md:text-2xl  line-through text-gray-600">
                       {product?.oldPrice} DA

@@ -123,7 +123,7 @@ const SpecialOffer = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap justify-around">
         {products &&
           products.length > 0 &&
           products.map((product, index) => (

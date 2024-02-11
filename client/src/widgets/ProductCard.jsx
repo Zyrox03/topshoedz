@@ -11,7 +11,7 @@ export const ProductCard = ({ product }) => {
   return (
     <Link
       to={`/${product.slug}`}
-      className="flex flex-col gap-2 lg:w-[20em] p-4  bg-slate-100 rounded-lg relative shadow-lg"
+      className="flex flex-col gap-2 w-[10em] lg:w-[20em] p-4  bg-slate-100 rounded-lg relative shadow-lg"
       dir="rtl"
     >
       <div className="overflow-hidden rounded-lg ">
