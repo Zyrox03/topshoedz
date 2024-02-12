@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useFormik } from "formik";
 import { Footer } from "../../components/Footer";
 import { Title } from "../../widgets/Title";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import MetaPixel from "../../utils/meta/metaPixel";
 
 const Contact = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -50,6 +52,8 @@ const Contact = () => {
 
         const { message } = response.data;
         setContactSuccess(message);
+        fbq('track', 'Contact');
+
 
         formik.resetForm();
       } catch (error) {
@@ -113,6 +117,8 @@ const Contact = () => {
         {/* Balise meta viewport pour le design responsive */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
+
+      <MetaPixel/>
 
       {/* ... Your existing code ... */}
       <NavBar setOpenSideNav={setOpenSideNav} />

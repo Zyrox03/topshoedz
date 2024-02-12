@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { SideNav } from "../../components/SideNav";
 
 import { Helmet } from "react-helmet";
+import MetaPixel from "../../utils/meta/metaPixel";
 
 
 const LandingPage = () => {
@@ -54,6 +55,7 @@ const LandingPage = () => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </Helmet>
 
+<MetaPixel/>
 
 
       <NavBar setOpenSideNav={setOpenSideNav} isLanding />

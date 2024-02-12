@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -69,10 +70,39 @@ export const CheckoutForm = ({
           livraisonPrice: selectedDeliveryOption.deliveryPrice,
         };
 
-        await axios.post(
+        const response = await axios.post(
           `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`,
           { ...values, deliveryOption }
         );
+
+        const { savedOrder } = response.data;
+
+        fbq("track", "Purchase", {
+          currency: "DZD",
+          value: savedOrder.orderTotal,
+          content_name: savedOrder.productInfo.name,
+          contents: [
+            {
+              id: savedOrder.productInfo.slug,
+              quantity: savedOrder.quantity,
+              price: savedOrder.productInfo.price,
+              variantes: {
+                couleur: savedOrder.color || "null",
+                pointure: savedOrder.size || "null",
+              },
+              livraison: savedOrder?.deliveryOption,
+              info_du_client: {
+                nom: savedOrder.name,
+                téléphone: savedOrder.phone,
+                adresse: {
+                  wilaya: savedOrder?.wilaya,
+                  baladiya: savedOrder?.baladiya,
+                },
+              },
+            },
+          ],
+        });
+
         setOrderSuccess(true);
       } catch (error) {
         console.error("Error submitting order:", error);
@@ -149,10 +179,8 @@ export const CheckoutForm = ({
         },
       ];
       setDeliveryOptions(options);
-
     } else {
       setDeliveryOptions([]); // Reset deliveryOptions if no tarifs found
-
     }
   }, [formik.values.baladiya]);
 

@@ -119,7 +119,7 @@ router.post("/", async (req, res) => {
         </html>
       `;
 
-    // await sendEmailNotification(emailSubject, emailBody);
+    await sendEmailNotification(emailSubject, emailBody);
   } catch (error) {
     console.error("Error handling order submission:", error);
     res.status(500).json({ error: "Internal Server Error" });

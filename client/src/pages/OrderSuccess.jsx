@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { SideNav } from "../components/SideNav";
 import { Link, useLocation } from "react-router-dom";
+import MetaPixel from "../utils/meta/metaPixel";
 
 const OrderSuccess = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -25,6 +26,8 @@ const OrderSuccess = () => {
 
   return (
     <div className="h-screen bg-slate-300/50 flex flex-col relative overflow-hidden">
+
+      <MetaPixel/>
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div

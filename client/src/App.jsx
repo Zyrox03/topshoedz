@@ -42,6 +42,9 @@ function App() {
   }
 
   return (
+
+    <>
+    
     <Routes>
       <Route path="/" element={<LandingPage />} />
 
@@ -69,6 +72,8 @@ function App() {
       <Route path="/account" element={<Auth />} />
       <Route path="/:productID" element={<ProductDetails />} />
     </Routes>
+    </>
+
   );
 }
 

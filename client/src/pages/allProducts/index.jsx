@@ -7,6 +7,7 @@ import { Title } from "../../widgets/Title";
 import { ProductCard } from "../../widgets/ProductCard";
 import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
+import MetaPixel from "../../utils/meta/metaPixel";
 const AllProducts = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
   const productsList = useSelector((state) => state.products.items);
@@ -66,6 +67,8 @@ const AllProducts = () => {
         {/* Balise meta viewport pour le design responsive */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
+
+<MetaPixel/>
 
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />

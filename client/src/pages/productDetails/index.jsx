@@ -13,6 +13,7 @@ import DOMPurify from "dompurify";
 import ProductNotFound from "../ProductNotFound";
 import OrderSuccess from "../OrderSuccess";
 import { Helmet } from "react-helmet";
+import MetaPixel from "../../utils/meta/metaPixel";
 const ProductDetails = () => {
   //
   const { productID } = useParams();
@@ -212,6 +213,9 @@ const ProductDetails = () => {
         {/* Balise meta viewport pour le design responsive */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
+
+
+<MetaPixel/>
 
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
