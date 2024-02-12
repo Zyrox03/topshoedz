@@ -166,18 +166,22 @@ export const CheckoutForm = ({
   useEffect(() => {
     const livraisonTarifs = getLivraisonTarifs(selectedWilayaCode);
     if (livraisonTarifs) {
-      const options = [
-        {
+      const options = [];
+
+      if (livraisonTarifs.bureau !== "") {
+        options.push({
           value: "bureau",
           label: "تسليم في المكتب",
           deliveryPrice: parseInt(livraisonTarifs.bureau) - 200,
-        },
-        {
-          value: "domicile",
-          label: "تسليم في المنزل",
-          deliveryPrice: parseInt(livraisonTarifs.domicile) - 200,
-        },
-      ];
+        });
+      }
+
+      options.push({
+        value: "domicile",
+        label: "تسليم في المنزل",
+        deliveryPrice: parseInt(livraisonTarifs.domicile) - 200,
+      });
+
       setDeliveryOptions(options);
     } else {
       setDeliveryOptions([]); // Reset deliveryOptions if no tarifs found

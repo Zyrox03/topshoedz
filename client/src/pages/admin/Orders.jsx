@@ -30,7 +30,7 @@ const Orders = () => {
     getAllOrders();
   }, []);
 
-  const [OrderToViewModal, setOrderToViewModal] = useState(null);
+  const [OrderToViewModal, setOrderToViewModal] = useState(false);
 
   const [orderToView, setOrderToView] = useState(null);
 
@@ -198,6 +198,7 @@ const Orders = () => {
           onClose={onCloseView}
           modalTitle={`Détails de la commande `}
         >
+              <p className="text-sm text-gray-500 mb-2">ID: {orderToView?._id} </p>
           <div className=" mx-auto grid grid-cols-2 gap-6 ">
             <div>
               <p className="text-sm text-gray-600">Nom du client:</p>
