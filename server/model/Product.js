@@ -60,6 +60,11 @@ const productSchema = new mongoose.Schema({
 productSchema.pre('save', function(next) {
   // Loop through each image in the images array
   this.images.forEach((image) => {
+
+    if (image.image.path) {
+      image.image.path = image.image.path.replace('/upload/', '/upload/q_auto,w_500,c_scale,f_auto,fl_lossy/');
+    }
+
     // Ensure productColor exists and is a string
     if (image.productColor && typeof image.productColor === 'string') {
       // Trim and lowercase the productColor
@@ -68,6 +73,29 @@ productSchema.pre('save', function(next) {
   });
 
   // Continue with the save operation
+  next();
+});
+
+// Define a pre hook to automatically modify image paths before updating
+productSchema.pre('findOneAndUpdate', function(next) {
+  // Access the update object
+  const update = this.getUpdate();
+ 
+  update.images.forEach((image) => {
+
+  if (image.image.path) {
+    image.image.path = image.image.path.replace('/upload/', '/upload/q_auto,w_500,c_scale,f_auto,fl_lossy/');
+  }
+
+  // Ensure productColor exists and is a string
+  if (image.productColor && typeof image.productColor === 'string') {
+    // Trim and lowercase the productColor
+    image.productColor = image.productColor.trim().toLowerCase();
+  }
+});
+
+
+  // Continue with the update operation
   next();
 });
 

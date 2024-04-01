@@ -5,7 +5,7 @@ const Product = require("../model/Product");
 
 // cloudinary
 
-const cloudinary = require("cloudinary").v2;
+const {cloudinary} = require('../cloudinary')
 const multer = require("multer");
 const { storage } = require("../cloudinary");
 const SpecialOffer = require("../model/SpecialOffer");
@@ -148,9 +148,20 @@ router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
 
     // Fetch the existing product from the database using the productSlug
     const existingProduct = await Product.findOne({ slug: productSlug });
+// Extract filenames from updated images
+const currentFileNames = existingProduct.images.map(image => image.image.filename);
+   
 
-    // Check if the existing product has images
-    const existingImages = existingProduct ? existingProduct.images : [];
+// Find missing filenames
+const availableFileNames = (filename)=> {
+  return parsedImages.find(imageObject => imageObject?.image.filename === filename)?.image.filename
+}
+const missingFilenames = currentFileNames.filter(filename => !availableFileNames(filename) )
+
+for(missingFileName of missingFilenames) {
+  await cloudinary.uploader.destroy(missingFileName);
+
+}
 
     // Replace existingImages with modified parsedImages
     const updatedParsedImages = parsedImages
@@ -224,6 +235,13 @@ router.delete("/:slug", async (req, res) => {
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
+
+     const imagesToDeleteArray = deletedProduct?.images
+
+    for(imageToDelete of imagesToDeleteArray) {
+      await cloudinary.uploader.destroy(imageToDelete?.image.filename);
+    }
+    
 
     // Find and delete the associated SpecialOffer document
     const deletedSpecialOffer = await SpecialOffer.findOneAndDelete({

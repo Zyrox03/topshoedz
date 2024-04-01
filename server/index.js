@@ -20,7 +20,6 @@ const mongo_url = process.env.MONGODB_URL;
 mongoose.set("strictQuery", false);
 main().catch((err) => console.log(err));
 
-// "mongodb://127.0.0.1:27017/TopShoeDz"
 async function main() {
   await mongoose.connect(mongo_url);
   console.log("Connected to Database");
